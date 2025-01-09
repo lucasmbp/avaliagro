@@ -21,6 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         $stmt->close();
+        header("Location: index.php");
     } else {
         $message = "O campo descrição é obrigatório!";
     }
