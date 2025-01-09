@@ -67,7 +67,7 @@ if (!isset($_SESSION['login'])) {
     <div class="container">
         <div class="card">
             <div class="icon">📦</div>
-            <a href="usuario/">Itens</a>
+            <a href="cargo/">Itens</a>
         </div>
         <div class="card">
             <div class="icon">👤</div>
@@ -75,7 +75,7 @@ if (!isset($_SESSION['login'])) {
         </div>
         <div class="card">
             <div class="icon">🏢</div>
-            <a href="clientes.php">Cliente</a>
+            <a href="cliente/">Cliente</a>
         </div>
         <div class="card">
             <div class="icon">🛠️</div>

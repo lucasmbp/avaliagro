@@ -20,9 +20,9 @@ if (isset($_GET['id'])) {
             } else {
                 $message = "Erro ao atualizar o cargo: " . $stmt->error;
             }
-
-            $stmt->close();
-			 header("Location: index.php");
+            
+            $stmt->close();          
+			header("Location: index.php");
         } else {
             $message = "O campo descrição é obrigatório!";
         }
