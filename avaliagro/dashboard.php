@@ -4,9 +4,8 @@ if (!isset($_SESSION['login'])) {
     header("Location: index.php");
     exit;
 }
-
-//require_once '../ini.php';
-//require_once '../includes/BD/consultas.php';
+require_once 'ini.php';
+require_once 'includes/BD/consultas.php';
 ?>
 
 <!DOCTYPE html>
