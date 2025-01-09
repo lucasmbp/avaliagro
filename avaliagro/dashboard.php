@@ -66,11 +66,11 @@ require_once 'includes/BD/consultas.php';
     <div class="container">
         <div class="card">
             <div class="icon">📦</div>
-            <a href="<?//$PATH."usuario/";?>">Itens</a>
+            <a href="usuario/">Itens</a>
         </div>
         <div class="card">
             <div class="icon">👤</div>
-            <a href="<?//$PATH."usuario/";?>">Usuário</a>
+            <a href="usuario/">Usuário</a>
         </div>
         <div class="card">
             <div class="icon">🏢</div>
