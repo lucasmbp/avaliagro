@@ -1,6 +1,6 @@
 <?php
 
-// Configurações do banco de dados
+// Configurações do banco de dados teste
 $host = 'localhost'; // Endereço do servidor do banco de dados
 $username = 'root'; // Usuário do banco de dados
 $password = ''; // Senha do banco de dados
