@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once 'classes/usuario.php';
+
 $message = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -12,28 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($conn->connect_error) {
         die("Erro de conexão: " . $conn->connect_error);
     }
+    
+    $usuario = new usuario();
+    
+    $message = $usuario->login($conn, $login,$senha);
 
-    // Consulta para verificar o usuário
-    $stmt = $conn->prepare("SELECT senha FROM usuario WHERE login = ?");
-    $stmt->bind_param("s", $login);
-    $stmt->execute();
-    $stmt->bind_result($hashedPassword);
-    $stmt->fetch();
-
-
-    if ($hashedPassword && password_verify($senha, $hashedPassword)) {
-        $_SESSION['login'] = $login;
-		//echo "ok";
-		//exit;
-	
-        header("Location: dashboard.php");
-        exit;
-    } else {
-        $message = "Usuário ou senha inválidos!";
-    }
-
-    $stmt->close();
-    $conn->close();
 }
 ?>
 

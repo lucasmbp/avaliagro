@@ -1,12 +1,12 @@
 <?php
+require_once '../classes/usuario.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
+
 
 // Verificar se o ID do usuario foi passado na URL
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];
-	echo $id;
-
 
     // Verificar se o formulário foi enviado
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -17,29 +17,13 @@ if (isset($_GET['id'])) {
 		$area = $_POST['area'] ?? '';
 		$perfil = $_POST['perfil']?? '';
 		
-
-        // Validar o campo nome
-        if (!empty($nome)) {
-            // Atualizar o usuario no banco de dados
-            $stmt = $conn->prepare("UPDATE usuario SET nome = '$nome',email = '$email', cliente = $cliente, cargo = $cargo, area = $area, perfil = $perfil  WHERE id = $id");
-           // $stmt->bind_param("si", $nome,$email, $clinete, $cargo, $area, $perfil, $id);
-
-            if ($stmt->execute()) {
-                $message = "usuario atualizado com sucesso!";
-            } else {
-                $message = "Erro ao atualizar o usuario: " . $stmt->error;
-            }
-
-            $stmt->close();
-			header("Location: index.php");
-        } else {
-            $message = "O campo descrição é obrigatório!";
-        }
+		$user = new usuario();
+        $user->editar_usuario($nome, $email, $cliente, $cargo, $area, $perfil, $id, $conn);
+         
     }
-
+    
     // Buscar os dados do usuario
     $stmt = $conn->prepare("$LIST_USUARIOS WHERE u.id = $id");
-    //$stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
     $usuario = $result->fetch_assoc();
@@ -77,7 +61,7 @@ $conn->close();
 				<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>" required>
 				
 				<label for="senha">Senha</label>
-				<input type="password" id="senha" name="senha" value="">
+				<input type="password" id="senha" name="senha" value="" required>
 				
 				<label for="cliente">Cliente:</label>
 					<select id="cliente" name="cliente" required>
@@ -95,7 +79,7 @@ $conn->close();
 					<select id="cargo" name="cargo" required>
 						<option value="">Selecione um cargo</option>
 						<?php while ($cargo = $cargos->fetch_assoc()): 
-									if($cargo['id'] == $usuario['id_cargo'])?>									
+									if($cargo['id'] == $usuario['id_cargo'])?>								
 										<option value="<?php echo $cargo['id']; ?>" selected>
 											<?php echo htmlspecialchars($cargo['cargo']); ?>
 										</option>										
