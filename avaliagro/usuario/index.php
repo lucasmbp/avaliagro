@@ -44,7 +44,7 @@ if (!$result) {
 						<th>Área</th>
 						<th>Perfil</th>
 						<th>Cliente</th>
-                        <th><a href="inserir_cargo.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
+                        <th><a href="inserir_usuario.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
                     </tr>
                 </thead>
                 <tbody>

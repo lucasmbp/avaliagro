@@ -1,16 +1,13 @@
 <?php
-// Conexão com o banco de dados
-$conn = new mysqli('localhost', 'root', '', 'avaliagro');
-
-if ($conn->connect_error) {
-    die("Erro de conexão: " . $conn->connect_error);
-}
+require_once '../ini.php';
+require_once '../includes/BD/consultas.php';
+require_once '../classes/usuario.php';
 
 // Buscar dados para preencher as listas suspensas
-$clientes = $conn->query("SELECT id, nome FROM cliente");
-$cargos = $conn->query("SELECT id, descricao FROM cargo");
-$areas = $conn->query("SELECT id, descricao FROM area");
-$perfis = $conn->query("SELECT id, perfil FROM perfil");
+$clientes = $conn->query($LIST_CLIENTES);
+$cargos = $conn->query($LIST_CARGOS);
+$areas = $conn->query($LIST_AREAS);
+$perfis = $conn->query($LIST_PERFIS);
 
 // Verificar se o formulário foi enviado
 $message = "";
@@ -23,25 +20,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cargo_id = $_POST['cargo'] ?? '';
     $area_id = $_POST['area'] ?? '';
     $perfil_id = $_POST['perfil'] ?? '';
-
-    // Validar os campos
-    if ($nome && $login && $senha && $email && $cliente_id && $cargo_id && $area_id && $perfil_id) {
-        $senhaHash = password_hash($senha, PASSWORD_BCRYPT);
-
-        // Inserir no banco de dados
-        $stmt = $conn->prepare("INSERT INTO usuario (nome, login, senha, email, cliente, cargo, area, perfil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssiiii", $nome, $login, $senhaHash, $email, $cliente_id, $cargo_id, $area_id, $perfil_id);
-
-        if ($stmt->execute()) {
-            $message = "Usuário inserido com sucesso!";
-        } else {
-            $message = "Erro ao inserir o usuário: " . $stmt->error;
-        }
-
-        $stmt->close();
-    } else {
-        $message = "Por favor, preencha todos os campos!";
-    }
+    
+    $user = new usuario();
+    $user->inserir_usuario($nome, $login, $senha, $email, $cliente_id, $cargo_id, $area_id, $perfil_id);
+   
 }
 
 $conn->close();
@@ -130,7 +112,7 @@ $conn->close();
                 <option value="">Selecione um cargo</option>
                 <?php while ($cargo = $cargos->fetch_assoc()): ?>
                     <option value="<?php echo $cargo['id']; ?>">
-                        <?php echo htmlspecialchars($cargo['descricao']); ?>
+                        <?php echo htmlspecialchars($cargo['cargo']); ?>
                     </option>
                 <?php endwhile; ?>
             </select>
@@ -140,7 +122,7 @@ $conn->close();
                 <option value="">Selecione uma área</option>
                 <?php while ($area = $areas->fetch_assoc()): ?>
                     <option value="<?php echo $area['id']; ?>">
-                        <?php echo htmlspecialchars($area['descricao']); ?>
+                        <?php echo htmlspecialchars($area['area']); ?>
                     </option>
                 <?php endwhile; ?>
             </select>
