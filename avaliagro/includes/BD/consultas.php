@@ -19,12 +19,12 @@
 					join perfil p on p.id = u.perfil 
 					join cliente c on c.id = u.cliente";
 					
- $LIST_CARGOS = "SELECT id, cargo FROM cargo";
+ $LIST_CARGOS = "SELECT ca.id, ca.cargo FROM cargo ca";
  
- $LIST_AREAS = "SELECT id, area FROM area";
+ $LIST_AREAS = "SELECT a.id, a.area FROM area a";
  
- $LIST_PERFIS = "SELECT id, perfil FROM perfil";
+ $LIST_PERFIS = "SELECT p.id, p.perfil FROM perfil p";
 
- $LIST_CLIENTES = "SELECT id, cnpj, nome, responsavel FROM cliente";
+ $LIST_CLIENTES = "SELECT cl.id, cl.cnpj, cl.nome, cl.responsavel FROM cliente cl";
  
 ?>

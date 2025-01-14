@@ -1,62 +1,60 @@
 <?php
-
+require_once '../classes/cargo.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 
-// Configuração de paginação
+
+// ------------------Configuração de paginação----------------------------
 $limite = 10; // Número de itens por página
 $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $limite;
 
 // Contar o total de cargos
-$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM cliente");
+$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM cargo");
 $total_linhas = $total_resultados->fetch_assoc()['total'];
 
 // Calcular o número total de páginas
 $total_paginas = ceil($total_linhas / $limite);
 
 // Buscar os cargos para a página atual
-$result = $conn->query("$LIST_CLIENTES LIMIT $limite OFFSET $offset");
+$result = $conn->query("$LIST_CARGOS order by ca.cargo");
 
 if (!$result) {
     die("Erro na consulta: " . $conn->error);
 }
-
-
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Clientes</title>
+    <title>Lista de Cargos</title>
 	<link rel="stylesheet" href="../css/estilo_tabelas.css">
 </head>
 <body>
 
     <div class="table-container">
 	<?php require_once '../html/menu.html';?>
-        <h1 class="title">Lista de Clientes</h1>
+        <h1 class="title">Lista de Cargos</h1>
         <?php if ($result->num_rows > 0): ?>
             <table>
                 <thead>
                     <tr>
-                        <th>Cliente</th>
-						<th>CNPJ</th>
-						<th>Responsável</th>
-                        <th><a href="inserir_cliente.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
+                        <th>Descrição</th>
+                        <th><a href="inserir_cargo.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($cliente = $result->fetch_assoc()): ?>
+                    <?php while ($cargo = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($cliente['nome']); ?></td>	
-							<td><?php echo htmlspecialchars($cliente['cnpj']); ?></td>
-							<td><?php echo htmlspecialchars($cliente['responsavel']); ?></td>						
+                            <td><?php echo htmlspecialchars($cargo['cargo']); ?></td>	
 							<td>
-								<a href="editar_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                                <a href="excluir_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+								<a href="editar_cargo.php?id=<?php echo htmlspecialchars($cargo['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+                                <a href="excluir_cargo.php?id=<?php echo htmlspecialchars($cargo['id']); ?>"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
                             </td>
                            
                         </tr>
@@ -64,7 +62,7 @@ if (!$result) {
                 </tbody>
             </table>
         <?php else: ?>
-            <p>Nenhum usuário encontrado.</p>
+            <p>Nenhum cargo encontrado.</p>
         <?php endif; ?>
 
         <!-- Navegação de Paginação -->
@@ -91,6 +89,4 @@ if (!$result) {
 
 <?php
 $conn->close();
-
-
 ?>

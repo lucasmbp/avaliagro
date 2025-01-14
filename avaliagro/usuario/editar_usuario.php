@@ -7,6 +7,13 @@ require_once '../includes/BD/consultas.php';
 // Verificar se o ID do usuario foi passado na URL
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];
+    
+    // Buscar os dados do usuario
+    $stmt = $conn->prepare("$LIST_USUARIOS WHERE u.id = $id");
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $usuario = $result->fetch_assoc();
+    $stmt->close();
 
     // Verificar se o formulário foi enviado
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -16,27 +23,25 @@ if (isset($_GET['id'])) {
 		$cargo = $_POST['cargo'] ?? '';
 		$area = $_POST['area'] ?? '';
 		$perfil = $_POST['perfil']?? '';
+		$senha = $_POST['senha']?? '';
+	
 		
 		$user = new usuario();
-        $user->editar_usuario($nome, $email, $cliente, $cargo, $area, $perfil, $id, $conn);
-         
+        $user->editar_usuario($nome, $senha, $email, $cliente, $cargo, $area, $perfil, $id, $conn);    
     }
     
-    // Buscar os dados do usuario
-    $stmt = $conn->prepare("$LIST_USUARIOS WHERE u.id = $id");
-    $stmt->execute();
-    $result = $stmt->get_result();
-    $usuario = $result->fetch_assoc();
-    $stmt->close();
 } else {
     $message = "ID do usuario não fornecido.";
 }
-
+//$LIST_CLIENTES = $LIST_CLIENTES + "order by cl.nome";
+//$LIST_CARGOS = $LIST_CARGOS + "order by ca.cargo";
+//$LIST_AREAS = $LIST_AREAS + "order by a.area";
+//$LIST_PERFIS = $LIST_PERFIS + "order by p.perfil";
 // Buscar dados para preencher as listas suspensas
-$clientes = $conn->query("$LIST_CLIENTES");
-$cargos = $conn->query("$LIST_CARGOS");
-$areas = $conn->query("$LIST_AREAS");
-$perfis = $conn->query("$LIST_PERFIS");
+$clientes = $conn->query("$LIST_CLIENTES order by cl.nome");
+$cargos = $conn->query("$LIST_CARGOS order by ca.cargo");
+$areas = $conn->query("$LIST_AREAS order by a.area");
+$perfis = $conn->query("$LIST_PERFIS order by p.perfil");
 
 $conn->close();
 ?>
@@ -61,53 +66,49 @@ $conn->close();
 				<input type="text" id="email" name="email" value="<?php echo htmlspecialchars($usuario['email']); ?>" required>
 				
 				<label for="senha">Senha</label>
-				<input type="password" id="senha" name="senha" value="" required>
+				<input type="password" id="senha" name="senha" value="">
 				
 				<label for="cliente">Cliente:</label>
 					<select id="cliente" name="cliente" required>
 						<option value="">Selecione um cliente</option>
-						<?php while ($cliente = $clientes->fetch_assoc()): 
-								if($cliente['id'] == $usuario['id_cliente'])?>
-									<option value="<?php echo $cliente['id']; ?>" selected>
-										<?php echo htmlspecialchars($cliente['nome']); ?>
-									</option>
-								<? endif;?>
+						<?php while ($cliente = $clientes->fetch_assoc()):?>	
+						          <option value="<?php echo $cliente['id']; ?>" 
+                           			 <?php echo $cliente['id'] == $usuario['id_cliente'] ? 'selected' : ''; ?>>
+                           			 <?php echo htmlspecialchars($cliente['nome']); ?>
+                        		  </option>
 						<?php endwhile; ?>
 					</select>
 
 				<label for="cargo">Cargo:</label>
 					<select id="cargo" name="cargo" required>
 						<option value="">Selecione um cargo</option>
-						<?php while ($cargo = $cargos->fetch_assoc()): 
-									if($cargo['id'] == $usuario['id_cargo'])?>								
-										<option value="<?php echo $cargo['id']; ?>" selected>
-											<?php echo htmlspecialchars($cargo['cargo']); ?>
-										</option>										
-									<? endif;?>
+						<?php while ($cargo = $cargos->fetch_assoc()):?> 
+						      <option value="<?php echo $cargo['id']; ?>"
+						           <?php echo $cargo['id'] == $usuario['id_cargo'] ? 'selected' : ''; ?>>
+                           	 	   <?php echo htmlspecialchars($cargo['cargo']); ?>
+                        	  </option>
 						<?php endwhile; ?>
 					</select>
 
 				<label for="area">Área:</label>
 					<select id="area" name="area" required>
 						<option value="">Selecione uma área</option>
-						<?php while ($area = $areas->fetch_assoc()): 
-								if($area['id'] == $usuario['id_area'])?>
-									<option value="<?php echo $area['id']; ?>" selected>
-										<?php echo htmlspecialchars($area['area']); ?>
-									</option>
-								<?endif;?>
+						<?php while ($area = $areas->fetch_assoc()):?>
+								<option value="<?php echo $area['id']; ?>"
+						             <?php echo $area['id'] == $usuario['id_area'] ? 'selected' : ''; ?>>
+                           		     <?php echo htmlspecialchars($area['area']); ?>
+                            	</option>
 						<?php endwhile; ?>
 					</select>
 
 				<label for="perfil">Perfil:</label>
 					<select id="perfil" name="perfil" required>
 						<option value="">Selecione um perfil</option>
-						<?php while ($perfil = $perfis->fetch_assoc()): 
-							if($perfil['id'] == $usuario['id_perfil'])?>
-							<option value="<?php echo $perfil['id']; ?>" selected>
-								<?php echo htmlspecialchars($perfil['perfil']); ?>
-							</option>
-							<?endif;?>
+						<?php while ($perfil = $perfis->fetch_assoc()): ?>
+						      <option value="<?php echo $perfil['id']; ?>"
+						          <?php echo $perfil['id'] == $usuario['id_perfil'] ? 'selected' : ''; ?>>
+                           		  <?php echo htmlspecialchars($perfil['perfil']); ?>
+                       		 </option>
 						<?php endwhile; ?>
 					</select>
                 <button type="submit">Atualizar</button>

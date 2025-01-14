@@ -1,9 +1,9 @@
 <?php
 
-
 class usuario
 {
-  
+    
+    
     
     public function login($conn,$login, $senha ){
         
@@ -31,22 +31,86 @@ class usuario
         
     }
     
-    public function editar_usuario ($nome,$email, $cliente, $cargo, $area, $perfil, $id, $conn){
+    
+    
+    
+    public function editar_usuario ($nome, $senha, $email, $cliente, $cargo, $area, $perfil, $id, $conn){
         
-        // Atualizar o usuario no banco de dados
-        $stmt = $conn->prepare("UPDATE usuario SET nome = '$nome',email = '$email', cliente = $cliente, cargo = $cargo, area = $area, perfil = $perfil  WHERE id = $id");
+            
         
-        if ($stmt->execute()) {
-            $message = "usuario atualizado com sucesso!";
-        } else {
-            $message = "Erro ao atualizar o usuario: " . $stmt->error;
-        }
         
-        $stmt->close();
-        header("Location: index.php");
+        /*
+            // Consulta para verificar o usuário
+            $senhabanco = $conn->query("SELECT senha FROM usuario WHERE id = $id");
+           // $query = $conn->prepare("SELECT senha FROM usuario WHERE id = ?");
+            //$query->bind_result($hashedPassword);
+            
+            $senha =  password_hash($senha, PASSWORD_BCRYPT);
+            echo $senhabanco['senha'];
+            
+            exit;
+            if ($senha == $senhabanco['senha']) {
+                
+                // Atualizar o usuario no banco de dados
+                $stmt = $conn->prepare("UPDATE usuario SET nome = '$nome',email = '$email', cliente = $cliente, cargo = $cargo, area = $area, perfil = $perfil  WHERE id = $id");
+                echo $stmt;
+                exit;
+                
+                if ($stmt->execute()) {
+                    $message = "usuario atualizado com sucesso!";
+                } else {
+                    $message = "Erro ao atualizar o usuario: " . $stmt->error;
+                }   
+                
+            }else{*/
+        
+        
+        
+            // Consulta para verificar o usuário
+            $stmt = $conn->prepare("SELECT senha FROM usuario WHERE login = ?");
+            $stmt->bind_param("s", $login);
+            $stmt->execute();
+            $stmt->bind_result($hashedPassword);
+            $stmt->fetch();
+            
+            
+            if (($hashedPassword && password_verify($senha, $hashedPassword))|| $senha=="") {
+                
+                // Atualizar o usuario no banco de dados
+                $stmt = $conn->prepare("UPDATE usuario SET nome = '$nome',email = '$email', cliente = $cliente, cargo = $cargo, area = $area, perfil = $perfil  WHERE id = $id");
+                
+                if ($stmt->execute()) {
+                    $message = "usuario atualizado com sucesso!";
+                } else {
+                    $message = "Erro ao atualizar o usuario: " . $stmt->error;
+                }
+                
+               
+            }else{
+                $senha = password_hash($senha, PASSWORD_BCRYPT);
+                // Atualizar o usuario no banco de dados
+                $stmt = $conn->prepare("UPDATE usuario SET nome = '$nome', senha = '$senha', email = '$email', cliente = $cliente, cargo = $cargo, area = $area, perfil = $perfil  WHERE id = $id");
+                
+                
+                if ($stmt->execute()) {
+                    $message = "usuario atualizado com sucesso!";
+                } else {
+                    $message = "Erro ao atualizar o usuario: " . $stmt->error;
+                }   
+                
+            }
+            
+            
+            $stmt->close();
+            header("Location: index.php");
     }
     
-    public function inserir_usuario($nome, $login, $senha, $email, $cliente_id, $cargo_id, $area_id, $perfil_id){
+    
+    
+    
+    
+    
+    public function inserir_usuario($nome, $login, $senha, $email, $cliente_id, $cargo_id, $area_id, $perfil_id, $conn){
         
         if ($nome && $login && $senha && $email && $cliente_id && $cargo_id && $area_id && $perfil_id) {
             $senhaHash = password_hash($senha, PASSWORD_BCRYPT);
@@ -57,6 +121,8 @@ class usuario
             
             if ($stmt->execute()) {
                 $message = "Usuário inserido com sucesso!";
+                $stmt->close();
+                header("Location: index.php");
             } else {
                 $message = "Erro ao inserir o usuário: " . $stmt->error;
             }

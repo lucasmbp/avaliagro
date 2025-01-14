@@ -1,5 +1,4 @@
 <?php
-
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 
@@ -9,20 +8,18 @@ $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $limite;
 
 // Contar o total de cargos
-$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM cliente");
+$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM usuario");
 $total_linhas = $total_resultados->fetch_assoc()['total'];
 
 // Calcular o número total de páginas
 $total_paginas = ceil($total_linhas / $limite);
 
 // Buscar os cargos para a página atual
-$result = $conn->query("$LIST_CLIENTES LIMIT $limite OFFSET $offset");
+$result = $conn->query("$LIST_USUARIOS LIMIT $limite OFFSET $offset");
 
 if (!$result) {
     die("Erro na consulta: " . $conn->error);
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -30,33 +27,37 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Clientes</title>
+    <title>Lista de Usuários</title>
 	<link rel="stylesheet" href="../css/estilo_tabelas.css">
 </head>
 <body>
 
     <div class="table-container">
 	<?php require_once '../html/menu.html';?>
-        <h1 class="title">Lista de Clientes</h1>
+        <h1 class="title">Lista de Usuários</h1>
         <?php if ($result->num_rows > 0): ?>
             <table>
                 <thead>
                     <tr>
-                        <th>Cliente</th>
-						<th>CNPJ</th>
-						<th>Responsável</th>
-                        <th><a href="inserir_cliente.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
+                        <th>Descrição</th>
+						<th>Cargo</th>
+						<th>Área</th>
+						<th>Perfil</th>
+						<th>Cliente</th>
+                        <th><a href="inserir_usuario.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($cliente = $result->fetch_assoc()): ?>
+                    <?php while ($usuarios = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($cliente['nome']); ?></td>	
-							<td><?php echo htmlspecialchars($cliente['cnpj']); ?></td>
-							<td><?php echo htmlspecialchars($cliente['responsavel']); ?></td>						
+                            <td><?php echo htmlspecialchars($usuarios['nome']); ?></td>	
+							<td><?php echo htmlspecialchars($usuarios['cargo']); ?></td>
+							<td><?php echo htmlspecialchars($usuarios['area']); ?></td>
+							<td><?php echo htmlspecialchars($usuarios['perfil']); ?></td>
+							<td><?php echo htmlspecialchars($usuarios['cliente']); ?></td>								
 							<td>
-								<a href="editar_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                                <a href="excluir_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+								<a href="editar_usuario.php?id=<?php echo htmlspecialchars($usuarios['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+                                <a href="excluir_usuario.php?id=<?php echo htmlspecialchars($usuarios['id']); ?>"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
                             </td>
                            
                         </tr>
@@ -89,8 +90,4 @@ if (!$result) {
 </body>
 </html>
 
-<?php
 $conn->close();
-
-
-?>
