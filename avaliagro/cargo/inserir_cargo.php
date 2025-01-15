@@ -1,30 +1,20 @@
 <?php
+require_once '../classes/cargo.php';
 require_once '../ini.php';
+require_once '../includes/BD/consultas.php';
 
 $message = "";
 
 // Verificar se o formulário foi enviado
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $descricao = $_POST['descricao'] ?? '';
-
-    // Validar o campo descricao
-    if (!empty($descricao)) {
-        // Inserir o cargo no banco de dados
-        $stmt = $conn->prepare("INSERT INTO cargo (descricao) VALUES (?)");
-        $stmt->bind_param("s", $descricao);
-
-        if ($stmt->execute()) {
-            $message = "Cargo inserido com sucesso!";
-			header("Location: list_cargo.php");
-        } else {
-            $message = "Erro ao inserir o cargo: " . $stmt->error;
-        }
-
-        $stmt->close();
-        header("Location: index.php");
-    } else {
-        $message = "O campo descrição é obrigatório!";
-    }
+    $cargo = $_POST['cargo'] ?? '';
+    
+    $position = new cargo();
+    
+    if(!($position->validar_cargo($cargo, $conn)))$message = "O cargo já existe";
+    else $position->inserir_cargo();
+                    
+    
 }
 
 $conn->close();
@@ -42,8 +32,8 @@ $conn->close();
     <div class="form-container">
         <h2>Inserir Cargo</h2>
         <form method="POST">
-            <label for="descricao">Descrição do Cargo:</label>
-            <input type="text" id="descricao" name="descricao" required>
+            <label for="cargo">Descrição do Cargo:</label>
+            <input type="text" id="cargo" name="cargo" required>
             <button type="submit">Inserir</button>
         </form>
         <?php if ($message): ?>

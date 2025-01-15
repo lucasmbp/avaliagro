@@ -1,34 +1,34 @@
 <?php
-
+include'../ini.php';
 
 class cargo
 {
-    public function inserir_cargo($cargo, $id, $conn){
+    public function inserir_cargo($cargo, $id){
         
         
-        // Buscar os dados do cargo
+        // Inserir o cargo no banco de dados
+        $stmt = $conn->prepare("INSERT INTO cargo (descricao) VALUES (?)");
+        $stmt->bind_param("s", $cargo);
         
-        $total_resultados = $conn->query("SELECT COUNT(*) AS total FROM cargo where cargo = $cargo");
-        $total_linhas = $total_resultados->fetch_assoc()['total'];
-        if($total_linhas>0){
-            $message = "O cargo já existe";
-            }else{
-       
-                // Atualizar o cargo no banco de dados
-                $stmt = $conn->prepare("UPDATE cargo SET cargo = ? WHERE id = ?");
-                $stmt->bind_param("si", $cargo, $id);
-                
-                if ($stmt->execute()) {
-                    header("Location: index.php");
-                    //$message = true;
-                } else {
-                    $message = "Erro ao atualizar o cargo: " . $stmt->error;
-                }
-                $stmt->close();  
-        }
-        return $message;
+        if ($stmt->execute())$message = "Cargo inserido com sucesso!";
+        else $message = "Erro ao inserir o cargo: " . $stmt->error;
+        
+        $stmt->close();
+        header("Location: index.php");           
        
         
+    }
+    
+    
+    public function validar_cargo($cargo, $conn){
+        
+        //verifica se o cargo já existe
+        $stmt = $conn->query("SELECT cargo FROM cargo where cargo = '$cargo'");
+        
+        if($cargo == $stmt['cargo'])return false;
+        else return true;
+        
+        $stmt->close();
     }
     
     
