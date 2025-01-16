@@ -11,10 +11,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     
     $position = new cargo();
     
-    if(!($position->validar_cargo($cargo, $conn)))$message = "O cargo já existe";
-    else $position->inserir_cargo();
-                    
-    
+    if(!($position->validar_cargo($cargo,$conn)))$message = "O cargo já existe";
+    else{   $position->inserir_cargo($cargo, $conn); 
+            $message = "Cargo cadastrado com sucesso";
+    }
 }
 
 $conn->close();
