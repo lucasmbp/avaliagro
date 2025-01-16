@@ -38,9 +38,13 @@ $conn->close();
         </form>
         <?php if ($message): ?>
             <p class="message <?php echo strpos($message, 'Erro') !== false ? 'error' : ''; ?>">
-                <?php echo htmlspecialchars($message); ?>
-            </p>
-        <?php endif; ?>
+            <?php $redirectUrl ="list_cargo.php";?>
+            <script>
+    				alert("<?php echo htmlspecialchars($message); ?>");
+           			window.location.href = "<?php echo $redirectUrl; ?>"
+			</script>
+			<?php //header("Location: list_cargo.php");?>
+        <?php endif;?>
     </div>
 </body>
 </html>

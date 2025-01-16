@@ -13,10 +13,7 @@ class cargo
         if ($stmt->execute())$message = "Cargo inserido com sucesso!";
         else $message = "Erro ao inserir o cargo: " . $stmt->error;
         
-        $stmt->close();
-       // header("Location: index.php");           
-       
-        
+        $stmt->close();                 
     }
     
     
@@ -35,6 +32,31 @@ class cargo
         
         $stmt->close();
     }
+    
+    
+    public function editar_cargo($cargo, $id, $conn){
+        
+        $validacao = new cargo();
+        $validacao = $validacao->validar_cargo($cargo, $conn);
+        
+        //Se a validação retornar falso retorna cargo já existente
+        if($validacao == false){
+            $message = false;
+            return $message;
+        }else{           
+                // Atualizar o cargo no banco de dados
+                $stmt = $conn->prepare("UPDATE CARGO SET cargo = '$cargo'  WHERE id = $id");               
+                if ($stmt->execute()) {
+                    $message = true;
+                } else {
+                    $message = false;
+                }                      
+                $stmt->close();
+                return  $message;
+        }  
+
+    }
+    
     
     
     public function excluir_cargo ($id, $conn){
