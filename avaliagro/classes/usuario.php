@@ -34,37 +34,7 @@ class usuario
     
     
     
-    public function editar_usuario ($nome, $senha, $email, $cliente, $cargo, $area, $perfil, $id, $conn){
-        
-            
-        
-        
-        /*
-            // Consulta para verificar o usuário
-            $senhabanco = $conn->query("SELECT senha FROM usuario WHERE id = $id");
-           // $query = $conn->prepare("SELECT senha FROM usuario WHERE id = ?");
-            //$query->bind_result($hashedPassword);
-            
-            $senha =  password_hash($senha, PASSWORD_BCRYPT);
-            echo $senhabanco['senha'];
-            
-            exit;
-            if ($senha == $senhabanco['senha']) {
-                
-                // Atualizar o usuario no banco de dados
-                $stmt = $conn->prepare("UPDATE usuario SET nome = '$nome',email = '$email', cliente = $cliente, cargo = $cargo, area = $area, perfil = $perfil  WHERE id = $id");
-                echo $stmt;
-                exit;
-                
-                if ($stmt->execute()) {
-                    $message = "usuario atualizado com sucesso!";
-                } else {
-                    $message = "Erro ao atualizar o usuario: " . $stmt->error;
-                }   
-                
-            }else{*/
-        
-        
+    public function editar_usuario ($nome, $senha, $email, $cliente, $cargo, $area, $perfil, $id, $conn){      
         
             // Consulta para verificar o usuário
             $stmt = $conn->prepare("SELECT senha FROM usuario WHERE login = ?");
@@ -133,6 +103,21 @@ class usuario
         }
     }
     
+        
+    
+    public function excluir_usuario ($id, $conn){
+        $stmt = $conn->prepare("DELETE FROM usuario where id = ?");
+        $stmt->bind_param("i", $id);
+        
+        if ($stmt->execute())$message = "Usuário excluido com sucesso!";
+        else $message = "Erro ao inserir o cargo: " . $stmt->error;
+        
+        $stmt->close();
+        
+        return $message;
+        // header("Location: index.php");
+        
+    }
     
     
     

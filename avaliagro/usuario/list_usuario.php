@@ -1,6 +1,22 @@
 <?php
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
+require_once '../classes/usuario.php';
+
+
+
+if (isset($_GET['id'])) {
+    $id = (int)$_GET['id'];
+    
+    $id = (int)$_GET['id'];
+    $acao = (int)$_GET['acao'];
+
+    if($acao == 1){
+        $excluir = new usuario();
+        $message = $excluir->excluir_usuario($id, $conn);
+        
+    }
+}
 
 // Configuração de paginação
 $limite = 10; // Número de itens por página
@@ -57,7 +73,7 @@ if (!$result) {
 							<td><?php echo htmlspecialchars($usuarios['cliente']); ?></td>								
 							<td>
 								<a href="editar_usuario.php?id=<?php echo htmlspecialchars($usuarios['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                                <a href="excluir_usuario.php?id=<?php echo htmlspecialchars($usuarios['id']); ?>"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+                                <a href="list_usuario.php?id=<?php echo htmlspecialchars($usuarios['id']); ?>&acao=1""><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
                             </td>
                            
                         </tr>
@@ -90,4 +106,3 @@ if (!$result) {
 </body>
 </html>
 
-$conn->close();

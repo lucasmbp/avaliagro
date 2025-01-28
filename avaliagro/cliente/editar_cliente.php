@@ -15,7 +15,7 @@ if (isset($_GET['id'])) {
         $responsavel = $_POST['responsavel'] ?? '';
         
         $customer = new cliente();
-        $customer->editar_cliente($nome, $cnpj, $responsavel, $conn);
+        $customer->editar_cliente($nome, $cnpj, $responsavel, $id, $conn);
         
     }
     
@@ -23,7 +23,7 @@ if (isset($_GET['id'])) {
     $stmt = $conn->prepare("$LIST_CLIENTES WHERE cl.id = $id");
     $stmt->execute();
     $result = $stmt->get_result();
-    $usuario = $result->fetch_assoc();
+    $cliente = $result->fetch_assoc();
     $stmt->close();
 } else {
     $message = "ID do usuario não fornecido.";
@@ -51,7 +51,7 @@ $conn->close();
 				<label for="cnpj">CNPJ</label>
 				<input type="text" id="cnpj" name="cnpj" value="<?php echo htmlspecialchars($cliente['cnpj']); ?>" required>
 				
-				<label for="responsavel">Senha</label>
+				<label for="responsavel">Responsável</label>
 				<input type="text" id="responsavel" name="responsavel" value="<?php echo htmlspecialchars($cliente['responsavel']); ?>" required>
 			
                 <button type="submit">Atualizar</button>
