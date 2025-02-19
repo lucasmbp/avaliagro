@@ -75,34 +75,42 @@ class usuario
             header("Location: index.php");
     }
     
-    
-    
-    
-    
-    
+ 
     public function inserir_usuario($nome, $login, $senha, $email, $cliente_id, $cargo_id, $area_id, $perfil_id, $conn){
         
-        if ($nome && $login && $senha && $email && $cliente_id && $cargo_id && $area_id && $perfil_id) {
-            $senhaHash = password_hash($senha, PASSWORD_BCRYPT);
-            
-            // Inserir no banco de dados
-            $stmt = $conn->prepare("INSERT INTO usuario (nome, login, senha, email, cliente, cargo, area, perfil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("ssssiiii", $nome, $login, $senhaHash, $email, $cliente_id, $cargo_id, $area_id, $perfil_id);
-            
-            if ($stmt->execute()) {
-                $message = "Usuário inserido com sucesso!";
+        
+        // Consulta para verificar se o usuário já existe
+        $stmt = $conn->prepare("SELECT COUNT(*) as total FROM usuario WHERE login = ?");
+        $stmt->bind_param("s", $login);
+        $stmt->execute();
+        $total = $stmt->fetch();
+        
+        if($total != 0){            
+            $message = "Esse login já existe, escolha um login diferente";
+        }else{
+        
+            if ($nome && $login && $senha && $email && $cliente_id && $cargo_id && $area_id && $perfil_id) {
+                $senhaHash = password_hash($senha, PASSWORD_BCRYPT);
+                
+                // Inserir no banco de dados
+                $stmt = $conn->prepare("INSERT INTO usuario (nome, login, senha, email, cliente, cargo, area, perfil) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+                $stmt->bind_param("ssssiiii", $nome, $login, $senhaHash, $email, $cliente_id, $cargo_id, $area_id, $perfil_id);
+                
+                if ($stmt->execute()) {
+                    $message = "Usuário inserido com sucesso!";
+                    $stmt->close();
+                    header("Location: index.php");
+                } else {
+                    $message = "Erro ao inserir o usuário: " . $stmt->error;
+                }
+                
                 $stmt->close();
-                header("Location: index.php");
             } else {
-                $message = "Erro ao inserir o usuário: " . $stmt->error;
+                $message = "Por favor, preencha todos os campos!";
             }
-            
-            $stmt->close();
-        } else {
-            $message = "Por favor, preencha todos os campos!";
-        }
+        }   
+        return $total;
     }
-    
         
     
     public function excluir_usuario ($id, $conn){

@@ -3,11 +3,13 @@ require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 require_once '../classes/usuario.php';
 
+//Inicio da sessão
 session_start();
 if (!isset($_SESSION['login'])) {
     header("Location: index.php");
     exit;
 }
+$message = "";
 
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];
@@ -55,6 +57,12 @@ if (!$result) {
     <div class="table-container">
 	<?php require_once '../html/menu.html';?>
         <h1 class="title">Lista de Usuários</h1>
+         <?php if ($message): ?>
+            <p class="message <?php echo strpos($message, 'Erro') !== false ? 'error' : ''; ?>">
+                <?php echo htmlspecialchars($message); ?>
+            </p>
+        <?php endif; ?>
+        
         <?php if ($result->num_rows > 0): ?>
             <table>
                 <thead>

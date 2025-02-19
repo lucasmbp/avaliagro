@@ -2,11 +2,11 @@
 require_once 'ini.php';
 require_once 'includes/BD/consultas.php';
 session_start();
+
 if (!isset($_SESSION['login'])) {
     header("Location: index.php");
     exit;
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -83,7 +83,7 @@ if (!isset($_SESSION['login'])) {
         </div>
         <div class="card">
             <div class="icon">🌍</div>
-            <a href="areas.php">Área</a>
+            <a href="logout.php">Sair</a>
         </div>
         <div class="card">
             <div class="icon">✅</div>
