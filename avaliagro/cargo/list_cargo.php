@@ -2,6 +2,11 @@
 require_once '../classes/cargo.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
+session_start();
+if (!isset($_SESSION['login'])) {
+    header("Location: index.php");
+    exit;
+}
 
 $message = "";
    
@@ -27,7 +32,7 @@ if (isset($_GET['id'])) {
 
 }
 // ------------------Configuração de paginação----------------------------
-$limite = 10; // Número de itens por página
+$limite = 50; // Número de itens por página
 $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $limite;
 

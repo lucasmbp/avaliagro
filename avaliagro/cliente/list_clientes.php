@@ -1,7 +1,37 @@
 <?php
 
+require_once '../classes/cliente.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
+
+session_start();
+if (!isset($_SESSION['login'])) {
+    header("Location: index.php");
+    exit;
+}
+
+$message ="";
+
+//Exclusão de clientes
+if (isset($_GET['id'])) {
+    $id = (int)$_GET['id'];
+    
+    $id = (int)$_GET['id'];
+    $acao = (int)$_GET['acao'];
+    
+    if($acao == 1){
+        $excluir = new cliente();
+        $message = $excluir->excluir_cliente($id, $conn);
+        
+    }
+    
+    // Verificar se o formulário foi enviado
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $cargo = $_POST['cliente'] ?? '';
+        
+    }
+    
+}
 
 // Configuração de paginação
 $limite = 10; // Número de itens por página
@@ -38,6 +68,12 @@ if (!$result) {
     <div class="table-container">
 	<?php require_once '../html/menu.html';?>
         <h1 class="title">Lista de Clientes</h1>
+        <?php if ($message): ?>
+            <p class="message <?php echo strpos($message, 'Erro') !== false ? 'error' : ''; ?>">
+                <?php echo htmlspecialchars($message); ?>
+            </p>
+        <?php endif; ?>
+
         <?php if ($result->num_rows > 0): ?>
             <table>
                 <thead>
@@ -56,9 +92,8 @@ if (!$result) {
 							<td><?php echo htmlspecialchars($cliente['responsavel']); ?></td>						
 							<td>
 								<a href="editar_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                                <a href="excluir_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                            </td>
-                           
+                                <a href="list_clientes.php?id=<?php echo htmlspecialchars($cliente['id']); ?>&acao=1" onclick="return confirmarAcao()"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+                            </td>                           
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
