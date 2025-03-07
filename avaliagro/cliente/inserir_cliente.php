@@ -3,6 +3,7 @@
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 require_once '../classes/cliente.php';
+require_once '../html/menu.html';
 
 session_start();
 if (!isset($_SESSION['login'])) {

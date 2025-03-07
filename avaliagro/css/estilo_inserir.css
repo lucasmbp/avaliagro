@@ -1,45 +1,354 @@
-@charset "UTF-8";
+/* Formulário Moderno - Design System 2025 */
+/* Variáveis de cores e fontes */
+:root {
+  /* Paleta de cores principal */
+  --primary-color: #6366f1;
+  --primary-gradient: linear-gradient(135deg, #6366f1, #4f46e5);
+  --primary-hover: #4f46e5;
+  --secondary-color: #f8fafc;
+  
+  /* Cores de texto e fundo */
+  --text-color: #1e293b;
+  --text-light: #64748b;
+  --text-muted: #94a3b8;
+  --bg-color: #f1f5f9;
+  --card-bg: #ffffff;
+  
+  /* Cores de status */
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --info-color: #3b82f6;
+  
+  /* Elementos de UI */
+  --border-color: #e2e8f0;
+  --border-radius-sm: 6px;
+  --border-radius: 12px;
+  --border-radius-lg: 16px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.04);
+  --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 10px 30px rgba(0, 0, 0, 0.12);
+  
+  /* Animações */
+  --transition-fast: all 0.2s ease;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  /* Espaçamento */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+}
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .form-container {
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 400px;
-            text-align: center;
-        }
-        input[type="text"], input[type="email"], input[type="password"], select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .message {
-            margin-top: 10px;
-            color: green;
-        }
-        .error {
-            color: red;
-        }
+/* Reset e estilos base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  color: var(--text-color);
+  background-color: var(--bg-color);
+  line-height: 1.6;
+  font-size: 16px;
+  padding: var(--spacing-md);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Container do formulário */
+.form-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border-color);
+  position: relative;
+}
+
+/* Título do formulário */
+.form-container h2 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-lg);
+  color: var(--text-color);
+  position: relative;
+  padding-bottom: var(--spacing-sm);
+}
+
+.form-container h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 60px;
+  height: 4px;
+  background: var(--primary-gradient);
+  border-radius: 2px;
+}
+
+/* Estilo para mensagens */
+.message {
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin: var(--spacing-lg) 0;
+  border-radius: var(--border-radius);
+  background-color: rgba(16, 185, 129, 0.1);
+  color: var(--success-color);
+  font-size: 0.95rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--success-color);
+  animation: slideIn 0.3s ease-out forwards;
+}
+
+.message::before {
+  content: "✓";
+  font-weight: bold;
+  margin-right: 0.75rem;
+  font-size: 1.2rem;
+}
+
+.message.error {
+  background-color: rgba(239, 68, 68, 0.1);
+  color: var(--error-color);
+  border-left: 4px solid var(--error-color);
+}
+
+.message.error::before {
+  content: "!";
+}
+
+/* Formulário */
+form {
+  display: grid;
+  grid-gap: var(--spacing-md);
+}
+
+/* Estilo para campos de formulário */
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-color);
+}
+
+input, select {
+  width: 100%;
+  padding: 0.875rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--secondary-color);
+  transition: var(--transition-fast);
+  font-family: inherit;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  background-color: white;
+}
+
+/* Efeito de flutuação para campos de formulário */
+input:hover, select:hover {
+  border-color: var(--text-light);
+}
+
+/* Estilo para o botão */
+button[type="submit"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary-gradient);
+  color: white;
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  margin-top: var(--spacing-md);
+  font-weight: 600;
+  transition: var(--transition);
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-size: 1rem;
+}
+
+button[type="submit"]:hover {
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3);
+  transform: translateY(-2px);
+}
+
+button[type="submit"]:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(79, 70, 229, 0.2);
+}
+
+/* Campos obrigatórios */
+input:required, select:required {
+  background-image: radial-gradient(circle 4px, var(--primary-color) 50%, transparent 51%);
+  background-repeat: no-repeat;
+  background-position: right 0.75rem top 0.75rem;
+  background-size: 8px 8px;
+}
+
+/* Estado inválido */
+input:invalid, select:invalid {
+  border-color: var(--error-color);
+}
+
+/* Responsividade */
+@media (max-width: 767px) {
+  .form-container {
+    padding: var(--spacing-lg);
+    max-width: 100%;
+    margin: var(--spacing-sm);
+  }
+  
+  body {
+    padding: var(--spacing-sm);
+    align-items: flex-start;
+  }
+}
+
+/* Estilos para grupos de campos (layout de 2 colunas em desktop) */
+@media (min-width: 768px) {
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-md);
+  }
+  
+  /* Elementos que devem ocupar toda a largura */
+  .full-width {
+    grid-column: 1 / -1;
+  }
+}
+
+/* Animações para elementos */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Indicador de senha */
+.password-strength {
+  height: 5px;
+  border-radius: 3px;
+  margin-top: 5px;
+  background: #e2e8f0;
+  overflow: hidden;
+  position: relative;
+}
+
+.password-strength::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  transition: width 0.3s ease;
+  background: var(--warning-color);
+}
+
+.password-strength.weak::before {
+  width: 33%;
+  background: var(--error-color);
+}
+
+.password-strength.medium::before {
+  width: 66%;
+  background: var(--warning-color);
+}
+
+.password-strength.strong::before {
+  width: 100%;
+  background: var(--success-color);
+}
+
+/* Dica de campo */
+.field-tip {
+  margin-top: 0.25rem;
+  font-size: 0.8rem;
+  color: var(--text-light);
+}
+
+/* Campo com ícone (para senha ou pesquisa) */
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  padding-right: 2.5rem;
+}
+
+.input-with-icon .icon {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
+
+.input-with-icon .icon:hover {
+  color: var(--primary-color);
+}
+
+/* Classe para campos desabilitados */
+input:disabled, select:disabled {
+  background-color: var(--border-color);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Dark mode (opcional - pode ser removido se não for necessário) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg-color: #0f172a;
+    --card-bg: #1e293b;
+    --text-color: #e2e8f0;
+    --text-light: #94a3b8;
+    --text-muted: #64748b;
+    --border-color: #334155;
+    --secondary-color: #1e293b;
+  }
+  
+  input, select {
+    background-color: #2d3748;
+    color: var(--text-color);
+  }
+  
+  input:focus, select:focus {
+    background-color: #374151;
+  }
+  
+  .message.error {
+    background-color: rgba(239, 68, 68, 0.15);
+  }
+  
+  .message {
+    background-color: rgba(16, 185, 129, 0.15);
+  }
+}

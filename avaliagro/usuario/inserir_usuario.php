@@ -2,6 +2,7 @@
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 require_once '../classes/usuario.php';
+require_once '../html/menu.html';
 
 //inicio da sessão
 session_start();
