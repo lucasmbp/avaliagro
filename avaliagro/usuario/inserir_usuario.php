@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $message = $user->inserir_usuario($nome, $login, $senha, $email, $cliente_id, $cargo_id, $area_id, $perfil_id,$conn);
    
 }
-//<link rel="stylesheet" href="../css/estilo_inserir.css">
+
 $conn->close();
 ?>
 
@@ -45,7 +45,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inserir Usuário</title>    
-	
+	<link rel="stylesheet" href="../css/estilo_inserir.css">
 </head>
 <body>
     <div class="form-container">
