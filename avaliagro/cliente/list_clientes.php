@@ -1,12 +1,11 @@
 <?php
-
 require_once '../classes/cliente.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 
 session_start();
 if (!isset($_SESSION['login'])) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
 

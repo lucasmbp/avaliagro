@@ -1,15 +1,25 @@
+<?php
+session_start();
+if (!isset($_SESSION['login'])) {
+    header("Location: ../index.php");
+    exit;
+}
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
-<link rel="stylesheet" href="../css/estilo_menu.css">
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="../css/estilo_menu.css">
+
 <body>
 
     <button class="hamburger" onclick="toggleMenu()">☰</button>
     <div class="menu" id="menu">
         <a href="http://localhost/avaliagro/avaliagro/dashboard.php">Início</a>
-        <a href="http://localhost/avaliagro/avaliagro/usuario/">Usuários</a>
+        <a href="#sobre">Sobre</a>
         <a href="http://localhost/avaliagro/avaliagro/cargo/">Cargos</a>
-        <a href="http://localhost/avaliagro/avaliagro/cliente/">Clientes</a>
-        <a href="http://localhost/avaliagro/avaliagro/avaliacao/">Avaliaçoes</a>
+        <a href="#contato">Contato</a>
     </div>
 
     <script>

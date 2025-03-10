@@ -2,11 +2,11 @@
 require_once '../classes/cargo.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
-require_once '../html/menu.html';
+require_once '../html/menu.php';
 
 session_start();
 if (!isset($_SESSION['login'])) {
-    header("Location: index.php");
+    header("Location: ../index.php");
     exit;
 }
 
@@ -36,11 +36,6 @@ if (isset($_GET['id'])) {
 
 $conn->close();
 ?>
-
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Cargo</title>
 	<link rel="stylesheet" href="../css/estilo.css">
