@@ -1,0 +1,117 @@
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f7f7f7;
+            padding: 20px;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .avaliadores-container {
+            display: none;
+            margin-top: 20px;
+        }
+        .perguntas-container {
+            margin-top: 30px;
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+        }
+        .pergunta-item {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            position: relative;
+            border-left: 4px solid #4a90e2;
+        }
+        .peso-field {
+            width: 80px !important;
+            display: inline-block;
+        }
+        .add-pergunta-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+        }
+        .add-pergunta-btn:hover {
+            background-color: #45a049;
+        }
+        .add-pergunta-btn i {
+            margin-right: 8px;
+        }
+        .submit-btn {
+            background-color: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 0;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 4px;
+            width: 100%;
+            margin-top: 30px;
+        }
+        .submit-btn:hover {
+            background-color: #357ABD;
+        }
+        .remove-pergunta {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            color: #ff4d4d;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        .remove-pergunta:hover {
+            color: #cc0000;
+        }
+        .peso-container {
+            display: flex;
+            align-items: center;
+            margin-top: 10px;
+        }
+        .peso-container label {
+            margin-right: 10px;
+            margin-bottom: 0;
+            width: 50px;
+        }
+        .avaliador-select {
+            margin-top: 10px;
+        }

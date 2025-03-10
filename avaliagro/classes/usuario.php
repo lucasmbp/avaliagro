@@ -80,13 +80,16 @@ class usuario
         
         
         // Consulta para verificar se o usuário já existe
-        $stmt = $conn->prepare("SELECT COUNT(*) as total FROM usuario WHERE login = ?");
+        $stmt = $conn->prepare("SELECT COUNT(login) as total FROM usuario WHERE login = ?");
         $stmt->bind_param("s", $login);
         $stmt->execute();
         $total = $stmt->fetch();
         
+        $message = "";
+        
         if($total != 0){            
-            $message = "Esse login já existe, escolha um login diferente";
+            //$message = "Esse login já existe, escolha um login diferente";
+            $message = $total;
         }else{
         
             if ($nome && $login && $senha && $email && $cliente_id && $cargo_id && $area_id && $perfil_id) {
@@ -109,7 +112,7 @@ class usuario
                 $message = "Por favor, preencha todos os campos!";
             }
         }   
-        return $total;
+        return $message;
     }
         
     
