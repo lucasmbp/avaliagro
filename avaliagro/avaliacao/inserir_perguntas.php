@@ -1,11 +1,14 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "avaliagro");
+require_once '../classes/cargo.php';
+require_once '../ini.php';
+require_once '../includes/BD/consultas.php';
+require_once '../html/menu.php';
+
 
 // Buscar clientes
 $clientes = $conn->query("SELECT id, nome FROM cliente");
 
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -13,36 +16,33 @@ $clientes = $conn->query("SELECT id, nome FROM cliente");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Avaliação</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .container { width: 50%; margin: auto; }
-        .pergunta { margin-bottom: 10px; padding: 10px; border: 1px solid #ccc; }
-        .erro { color: red; font-weight: bold; display: none; }
-    </style>
+   	<link rel="stylesheet" href="../css/inserir_avaliacao.css">
 </head>
 <body>
 
 <div class="container">
     <h2>Criar Avaliação</h2>
     <form id="formAvaliacao">
-        <label>Nome da Avaliação:</label>
-        <input type="text" id="nome_avaliacao" required><br><br>
+        <div class="form-group">
+            <label for="nome_avaliacao">Nome da Avaliação:</label>
+            <input type="text" id="nome_avaliacao" required>
+        </div>
 
-        <label>Cliente:</label>
-        <select id="cliente" required>
-            <option value="">Selecione um Cliente</option>
-            <?php while ($cliente = $clientes->fetch_assoc()) { ?>
-                <option value="<?= $cliente['id'] ?>"><?= $cliente['nome'] ?></option>
-            <?php } ?>
-        </select>
-        <br><br>
+        <div class="form-group">
+            <label for="cliente">Cliente:</label>
+            <select id="cliente" required>
+                <option value="">Selecione um Cliente</option>
+                <?php while ($cliente = $clientes->fetch_assoc()) { ?>
+                    <option value="<?= $cliente['id'] ?>"><?= $cliente['nome'] ?></option>
+                <?php } ?>
+            </select>
+        </div>
 
-        <div id="perguntasContainer"></div>
+        <div id="perguntasContainer" class="perguntas-container"></div>
 
-        <button type="button" id="addPergunta">➕ Adicionar Pergunta</button>
-        <br><br>
+        <button type="button" class="add-pergunta-btn" id="addPergunta">➕ Adicionar Pergunta</button>
 
-        <button type="submit">Salvar Avaliação</button>
+        <button type="submit" class="submit-btn">Salvar Avaliação</button>
         <p class="erro" id="erro_peso">A soma dos pesos deve ser 1!</p>
     </form>
 </div>
@@ -76,11 +76,16 @@ $(document).ready(function () {
             <div class="pergunta" id="pergunta_${perguntaIndex}">
                 <label>Pergunta:</label>
                 <input type="text" class="pergunta_texto" required>
-                <label>Peso:</label>
-                <input type="number" class="peso" step="0.01" min="0" max="1" required>
+                
+                <div class="peso-container">
+                    <label>Peso:</label>
+                    <input type="number" class="peso peso-field" step="0.01" min="0" max="1" required>
+                </div>
+                
                 <label>Responsáveis:</label>
                 <select class="usuarios" multiple required></select>
-                <button type="button" onclick="removerPergunta(${perguntaIndex})">❌ Remover</button>
+                
+                <span class="remove-pergunta" onclick="removerPergunta(${perguntaIndex})">❌</span>
             </div>
         `;
         $("#perguntasContainer").append(perguntaHtml);
