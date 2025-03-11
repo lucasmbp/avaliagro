@@ -1,15 +1,9 @@
 <?php
-ob_start();  // Inicia o buffer para evitar problemas de saída
-session_start();
 require_once '../classes/usuario.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
-//require_once '../html/menu.html';
+require_once '../html/menu.php';
 
-if (!isset($_SESSION['login'])) {
-    header("Location: index.php");
-    exit();
-}
 
 // Verificar se o ID do usuário foi passado na URL
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {

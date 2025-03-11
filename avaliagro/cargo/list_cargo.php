@@ -2,12 +2,7 @@
 require_once '../classes/cargo.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
-
-session_start();
-if (!isset($_SESSION['login'])) {
-    header("Location: ../index.php");
-    exit;
-}
+require_once '../html/menu.php';
 
 $message = "";
    

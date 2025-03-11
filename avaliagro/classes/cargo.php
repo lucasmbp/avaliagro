@@ -36,10 +36,11 @@ class cargo
     
     public function editar_cargo($cargo, $id, $conn){
         
+        //valida cargo
         $validacao = new cargo();
         $validacao = $validacao->validar_cargo($cargo, $conn);
         
-        //Se a validação retornar falso retorna cargo já existente
+        //Se a validação retornar falso 
         if($validacao == false){
             $message = false;
             return $message;

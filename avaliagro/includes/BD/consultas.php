@@ -1,6 +1,6 @@
 <?php
  $LIST_USUARIOS = "SELECT 
-					u.id, 
+					u.id as id, 
 					u.nome as nome,
 					u.login as login, 
 					u.email as email, 
@@ -21,10 +21,22 @@
 					
  $LIST_CARGOS = "SELECT ca.id, ca.cargo FROM cargo ca";
  
- $LIST_AREAS = "SELECT a.id, a.area FROM area a";
+ $LIST_AREAS = "SELECT 
+                   a.id as id, 
+                   a.area as area, 
+                   a.cliente as cliente_id,
+                   cl.nome as cliente_nome
+                   FROM area a
+                   join cliente cl on cl.id = a.cliente";
  
  $LIST_PERFIS = "SELECT p.id, p.perfil FROM perfil p";
 
- $LIST_CLIENTES = "SELECT cl.id, cl.cnpj, cl.nome, cl.responsavel FROM cliente cl";
+ $LIST_CLIENTES = "SELECT 
+                    cl.id as id, 
+                    cl.cnpj as cnpj, 
+                    cl.nome as nome, 
+                    cl.responsavel as responsavel 
+                    FROM cliente cl";
+
  
 ?>

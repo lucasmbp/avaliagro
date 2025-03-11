@@ -4,11 +4,6 @@ require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 require_once '../html/menu.php';
 
-session_start();
-if (!isset($_SESSION['login'])) {
-    header("Location: ../index.php");
-    exit;
-}
 
 // Verificar se o ID do usuario foi passado na URL
 if (isset($_GET['id'])) {

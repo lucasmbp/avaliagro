@@ -1,31 +1,24 @@
 <?php
-require_once '../classes/cliente.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
+require_once '../classes/area.php';
 require_once '../html/menu.php';
 
+$message = "";
 
-$message ="";
-
-//Exclusão de clientes
+// caso seja exclusão
 if (isset($_GET['id'])) {
     $id = (int)$_GET['id'];
     
     $id = (int)$_GET['id'];
     $acao = (int)$_GET['acao'];
     
+    // se a ação for 1 faz a exclusão do registro
     if($acao == 1){
-        $excluir = new cliente();
-        $message = $excluir->excluir_cliente($id, $conn);
+        $excluir = new usuario();
+        $message = $excluir->excluir_usuario($id, $conn);
         
     }
-    
-    // Verificar se o formulário foi enviado
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $cargo = $_POST['cliente'] ?? '';
-        
-    }
-    
 }
 
 // Configuração de paginação
@@ -34,20 +27,18 @@ $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $limite;
 
 // Contar o total de cargos
-$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM cliente");
+$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM area");
 $total_linhas = $total_resultados->fetch_assoc()['total'];
 
 // Calcular o número total de páginas
 $total_paginas = ceil($total_linhas / $limite);
 
 // Buscar os cargos para a página atual
-$result = $conn->query("$LIST_CLIENTES LIMIT $limite OFFSET $offset");
+$result = $conn->query("$LIST_AREAS LIMIT $limite OFFSET $offset");
 
 if (!$result) {
     die("Erro na consulta: " . $conn->error);
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -55,40 +46,38 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Clientes</title>
+    <title>Lista de Áreas</title>
 	<link rel="stylesheet" href="../css/estilo_tabelas.css">
 </head>
 <body>
 
     <div class="table-container">
-	<?php require_once '../html/menu.html';?>
-        <h1 class="title">Lista de Clientes</h1>
-        <?php if ($message): ?>
+        <h1 class="title">Lista de Áreas</h1>
+         <?php if ($message): ?>
             <p class="message <?php echo strpos($message, 'Erro') !== false ? 'error' : ''; ?>">
                 <?php echo htmlspecialchars($message); ?>
             </p>
         <?php endif; ?>
-
+        
         <?php if ($result->num_rows > 0): ?>
             <table>
                 <thead>
                     <tr>
-                        <th>Cliente</th>
-						<th>CNPJ</th>
-						<th>Responsável</th>
-                        <th><a href="inserir_cliente.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
+						<th>Área</th>
+						<th>Cliente</th>
+                        <th><a href="inserir_area.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php while ($cliente = $result->fetch_assoc()): ?>
+                    <?php while ($area = $result->fetch_assoc()): ?>
                         <tr>
-                            <td><?php echo htmlspecialchars($cliente['nome']); ?></td>	
-							<td><?php echo htmlspecialchars($cliente['cnpj']); ?></td>
-							<td><?php echo htmlspecialchars($cliente['responsavel']); ?></td>						
+							<td><?php echo htmlspecialchars($area['area']); ?></td>
+							<td><?php echo htmlspecialchars($area['cliente_nome']); ?></td>								
 							<td>
-								<a href="editar_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                                <a href="list_clientes.php?id=<?php echo htmlspecialchars($cliente['id']); ?>&acao=1" onclick="return confirmarAcao()"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                            </td>                           
+								<a href="editar_area.php?id=<?php echo htmlspecialchars($area['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+                                <a href="list_area.php?id=<?php echo htmlspecialchars($area['id']); ?>&acao=1""><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+                            </td>
+                           
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
@@ -118,9 +107,3 @@ if (!$result) {
     </div>
 </body>
 </html>
-
-<?php
-$conn->close();
-
-
-?>

@@ -3,12 +3,8 @@
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 require_once '../classes/cliente.php';
+require_once '../html/menu.php';
 
-session_start();
-if (!isset($_SESSION['login'])) {
-    header("Location: ../index.php");
-    exit;
-}
 
 // Buscar dados para preencher as listas suspensas
 $clientes = $conn->query($LIST_CLIENTES);
