@@ -1,5 +1,7 @@
 <?php
-    $conn = new mysqli("localhost", "root", "", "avaliagro");
+require_once '../ini.php';
+require_once '../includes/BD/consultas.php';
+require_once '../html/menu.php';
 
     $id_cliente = $_POST["id_cliente"];
     $usuarios = $conn->query("SELECT id, nome FROM usuario WHERE cliente = $id_cliente");

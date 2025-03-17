@@ -2,48 +2,48 @@
 require_once '../classes/cargo.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
-require_once '../html/menu.php';
+require_once '../html/menu.html';
 
+// Conectar ao banco de dados
+$conn = new mysqli("localhost", "root", "", "avaliagro");
 
 // Buscar clientes
 $clientes = $conn->query("SELECT id, nome FROM cliente");
 
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nova Avaliação</title>
+    <title>Criação de Avaliação</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   	<link rel="stylesheet" href="../css/inserir_avaliacao.css">
+        <link rel="stylesheet" href="../css/inserir_avaliacao.css">
 </head>
 <body>
 
 <div class="container">
-    <h2>Criar Avaliação</h2>
+    <h2>Nova Avaliação</h2>
     <form id="formAvaliacao">
-        <div class="form-group">
-            <label for="nome_avaliacao">Nome da Avaliação:</label>
-            <input type="text" id="nome_avaliacao" required>
-        </div>
+        <label>Nome da Avaliação:</label>
+        <input type="text" id="nome_avaliacao" required><br><br>
 
-        <div class="form-group">
-            <label for="cliente">Cliente:</label>
-            <select id="cliente" required>
-                <option value="">Selecione um Cliente</option>
-                <?php while ($cliente = $clientes->fetch_assoc()) { ?>
-                    <option value="<?= $cliente['id'] ?>"><?= $cliente['nome'] ?></option>
-                <?php } ?>
-            </select>
-        </div>
+        <label>Cliente:</label>
+        <select id="cliente" required>
+            <option value="">Selecione um Cliente</option>
+            <?php while ($cliente = $clientes->fetch_assoc()) { ?>
+                <option value="<?= $cliente['id'] ?>"><?= $cliente['nome'] ?></option>
+            <?php } ?>
+        </select>
+        <br><br>
 
-        <div id="perguntasContainer" class="perguntas-container"></div>
-
-        <button type="button" class="add-pergunta-btn" id="addPergunta">➕ Adicionar Pergunta</button>
-
-        <button type="submit" class="submit-btn">Salvar Avaliação</button>
-        <p class="erro" id="erro_peso">A soma dos pesos deve ser 1!</p>
+        <div id="perguntasContainer"></div>
+          <button type="button" id="addPergunta" class="add-pergunta-btn">
+                <i>+</i> Adicionar Pergunta
+          </button>
+        <button type="submit">Salvar Avaliação</button>
+        <p class="erro" id="erro_peso" style="display: none;">A soma dos pesos deve ser 1!</p>
     </form>
 </div>
 
@@ -54,7 +54,7 @@ $(document).ready(function () {
     // Carregar usuários do cliente selecionado
     $("#cliente").change(function () {
         let clienteId = $(this).val();
-        $(".usuarios").empty();
+        $(".usuarios").empty(); 
 
         if (clienteId) {
             $.ajax({
@@ -76,19 +76,16 @@ $(document).ready(function () {
             <div class="pergunta" id="pergunta_${perguntaIndex}">
                 <label>Pergunta:</label>
                 <input type="text" class="pergunta_texto" required>
-                
-                <div class="peso-container">
-                    <label>Peso:</label>
-                    <input type="number" class="peso peso-field" step="0.01" min="0" max="1" required>
-                </div>
-                
+                <label>Peso:</label>
+                <input type="number" class="peso" step="0.01" min="0" max="1" required>
                 <label>Responsáveis:</label>
                 <select class="usuarios" multiple required></select>
-                
-                <span class="remove-pergunta" onclick="removerPergunta(${perguntaIndex})">❌</span>
+                <button type="button" onclick="removerPergunta(${perguntaIndex})" class="add-pergunta-btn">x Remover</button>
             </div>
         `;
         $("#perguntasContainer").append(perguntaHtml);
+
+        // Atualiza os usuários no select
         $("#cliente").trigger("change");
 
         perguntaIndex++;
@@ -99,7 +96,7 @@ $(document).ready(function () {
         $("#pergunta_" + index).remove();
     };
 
-    // Validação da soma dos pesos
+    // Validação de soma dos pesos
     $("#formAvaliacao").submit(function (e) {
         e.preventDefault();
         

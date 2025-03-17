@@ -1,6 +1,7 @@
 <?php
 session_start();
 require_once 'classes/usuario.php';
+require_once 'ini.php';
 
 $message = "";
 
@@ -8,12 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['login'] ?? '';
     $senha = $_POST['senha'] ?? '';
 
-    // Conectar ao banco de dados
-    $conn = new mysqli('localhost', 'root', '', 'avaliagro');
-
-    if ($conn->connect_error) {
-        die("Erro de conexão: " . $conn->connect_error);
-    }
     
     $usuario = new usuario();
     
