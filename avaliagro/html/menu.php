@@ -17,7 +17,7 @@ if (!isset($_SESSION['login'])) {
     <button class="hamburger" onclick="toggleMenu()">☰</button>
     <div class="menu" id="menu">
         <a href="<?=$PATH?>avaliagro/dashboard.php">Início</a>
-        <a href="<?=$PATH?>avaliagro/avaliacao/index.php">Avaliações</a>
+        <a href="<?=$PATH?>avaliagro/avaliacao/inserir_perguntas.php">Avaliações</a>
         <a href="<?=$PATH?>avaliagro/cargo/index.php">Cargos</a>
         <a href="<?=$PATH?>avaliagro/cliente/index.php">Clientes</a>
         <a href="<?=$PATH?>avaliagro/usuario/index.php">Usuários</a>
