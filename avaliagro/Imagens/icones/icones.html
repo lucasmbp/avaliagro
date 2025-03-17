@@ -3,50 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Biblioteca Completa de Ícones</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Biblioteca de 1.000 Ícones - Material Design Icons</title>
+    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/7.2.96/css/materialdesignicons.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
             background-color: #f7f7f7;
             padding: 20px;
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
             margin-bottom: 30px;
         }
 
+        .icons-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
         .icon {
-            font-size: 40px;
-            margin: 15px 20px;
+            font-size: 30px;
+            margin: 15px;
             display: inline-block;
             text-align: center;
-            width: 100px;
+            width: 120px;
+            height: 100px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon i {
+            display: block;
+            font-size: 40px;
+            margin-bottom: 8px;
         }
 
         .icon p {
-            font-size: 14px;
-            margin-top: 8px;
+            font-size: 12px;
+            word-break: break-word;
         }
     </style>
 </head>
 
 <body>
-    <h1>🔎 Biblioteca Completa de Ícones (Font Awesome)</h1>
+    <h1>🔎 Biblioteca de 1.000 Ícones - Material Design Icons</h1>
+    <div class="icons-container" id="icons-container"></div>
 
-    <div class="icon"><i class="fas fa-user"></i><p>Usuário</p></div>
-    <div class="icon"><i class="fas fa-chart-line"></i><p>Gráficos</p></div>
-    <div class="icon"><i class="fas fa-tools"></i><p>Configurações</p></div>
-    <div class="icon"><i class="fas fa-criate-alt"></i><p>Segurança</p></div>
-    <div class="icon"><i class="fas fa-shield-alt"></i><p>Criar</p></div>
-    <div class="icon"><i class="fas fa-database"></i><p>Banco de Dados</p></div>
-    <div class="icon"><i class="fas fa-check-circle"></i><p>Concluir</p></div>
-    <div class="icon"><i class="fas fa-bug"></i><p>Erro</p></div>
-    <div class="icon"><i class="fas fa-user-tie"></i><p>Gestão</p></div>
-    <div class="icon"><i class="fas fa-rocket"></i><p>Performance</p></div>
-    <div class="icon"><i class="fas fa-code"></i><p>Desenvolvimento</p></div>
-    <div class="icon"><i class="fas fa-laptop-code"></i><p>Programação</p></div>
-    <div class="icon"><i class="fas fa-bell"></i><p>Notificação</p></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.getElementById("icons-container");
+            const icons = [
+                "mdi-home", "mdi-account", "mdi-settings", "mdi-bell", "mdi-camera",
+                "mdi-car", "mdi-email", "mdi-heart", "mdi-lock", "mdi-map-marker",
+                "mdi-menu", "mdi-phone", "mdi-printer", "mdi-school", "mdi-shopping",
+                "mdi-star", "mdi-thumb-up", "mdi-wallet", "mdi-wifi", "mdi-alarm",
+                "mdi-alert", "mdi-battery", "mdi-book", "mdi-calendar", "mdi-chart-bar",
+                "mdi-clock", "mdi-cloud", "mdi-credit-card", "mdi-database", "mdi-delete",
+                "mdi-earth", "mdi-eye", "mdi-file", "mdi-fire", "mdi-flag",
+                "mdi-flash", "mdi-folder", "mdi-gift", "mdi-hammer", "mdi-key",
+                "mdi-lightbulb", "mdi-lock-open", "mdi-magnify", "mdi-microphone", "mdi-monitor",
+                "mdi-music", "mdi-palette", "mdi-paperclip", "mdi-pen", "mdi-rocket",
+                "mdi-server", "mdi-shield", "mdi-signal", "mdi-sitemap", "mdi-snowflake",
+                "mdi-sofa", "mdi-speedometer", "mdi-store", "mdi-sun", "mdi-thermometer",
+                "mdi-ticket", "mdi-train", "mdi-tree", "mdi-trophy", "mdi-truck",
+                "mdi-tv", "mdi-umbrella", "mdi-vector-square", "mdi-vote", "mdi-watch",
+                "mdi-wrench", "mdi-youtube", "mdi-zip-box", "mdi-airplane", "mdi-android",
+                "mdi-apple", "mdi-archive", "mdi-arrow-down", "mdi-arrow-left", "mdi-arrow-right",
+                "mdi-arrow-up", "mdi-basket", "mdi-basketball", "mdi-bed", "mdi-bike",
+                "mdi-bluetooth", "mdi-briefcase", "mdi-bulb", "mdi-calculator", "mdi-camera-front",
+                "mdi-cash", "mdi-cast", "mdi-check", "mdi-checkbox-marked", "mdi-chevron-down",
+                "mdi-chevron-left", "mdi-chevron-right", "mdi-chevron-up", "mdi-chili-hot", "mdi-chili-medium",
+                "mdi-circle", "mdi-clapperboard", "mdi-close", "mdi-code-braces", "mdi-cogs",
+                "mdi-comment", "mdi-compass", "mdi-console", "mdi-content-copy", "mdi-cookie",
+                "mdi-counter", "mdi-currency-btc", "mdi-currency-eur", "mdi-currency-usd", "mdi-database-plus",
+                "mdi-desk-lamp", "mdi-dialpad", "mdi-diamond", "mdi-dice-5", "mdi-dog",
+                "mdi-door", "mdi-dots-horizontal", "mdi-drag", "mdi-dumbbell", "mdi-duck",
+                "mdi-earth-box", "mdi-electric-switch", "mdi-ethernet", "mdi-eyedropper", "mdi-face-man",
+                "mdi-factory", "mdi-family-tree", "mdi-file-chart", "mdi-filter", "mdi-finance",
+                "mdi-firefox", "mdi-fish", "mdi-flask", "mdi-flashlight", "mdi-floor-lamp",
+                "mdi-flower", "mdi-football", "mdi-garage", "mdi-gas-station", "mdi-gauge",
+                "mdi-gavel", "mdi-gender-female", "mdi-gender-male", "mdi-gesture", "mdi-ghost",
+                "mdi-glasses", "mdi-globe-light", "mdi-google", "mdi-grain", "mdi-graph",
+                "mdi-guitar-electric", "mdi-hanger", "mdi-hand-heart", "mdi-hard-hat", "mdi-headphones",
+                "mdi-hospital", "mdi-hotel", "mdi-human", "mdi-inbox", "mdi-incognito",
+                "mdi-information", "mdi-instagram", "mdi-island", "mdi-jellyfish", "mdi-kangaroo",
+                "mdi-karate", "mdi-keyboard", "mdi-lamp", "mdi-lan", "mdi-language",
+                "mdi-leaf", "mdi-library", "mdi-link", "mdi-lotion", "mdi-mailbox",
+                "mdi-map", "mdi-math", "mdi-medal", "mdi-medical-bag", "mdi-microsoft",
+                "mdi-mine", "mdi-molecule", "mdi-moon", "mdi-mountain", "mdi-movie",
+                "mdi-nail", "mdi-newspaper", "mdi-notebook", "mdi-nuke", "mdi-nutrition",
+                "mdi-octopus", "mdi-opera", "mdi-palette-outline", "mdi-parking", "mdi-party-popper"
+            ];
+
+            for (let i = 0; i < 1000; i++) {
+                const div = document.createElement("div");
+                div.className = "icon";
+                div.innerHTML = `<i class="mdi ${icons[i]}"></i><p>${icons[i]}</p>`;
+                container.appendChild(div);
+            }
+        });
+    </script>
 </body>
 </html>

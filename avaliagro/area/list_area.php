@@ -15,8 +15,8 @@ if (isset($_GET['id'])) {
     
     // se a ação for 1 faz a exclusão do registro
     if($acao == 1){
-        $excluir = new usuario();
-        $message = $excluir->excluir_usuario($id, $conn);
+        $excluir = new area();
+        $message = $excluir->excluir_area($id, $conn);
         
     }
 }
@@ -48,6 +48,7 @@ if (!$result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Áreas</title>
 	<link rel="stylesheet" href="../css/estilo_tabelas.css">
+	 <link rel="stylesheet" href="https://cdn.materialdesignicons.com/7.2.96/css/materialdesignicons.min.css">
 </head>
 <body>
 
@@ -64,20 +65,33 @@ if (!$result) {
                 <thead>
                     <tr>
 						<th>Área</th>
-						<th>Cliente</th>
-                        <th><a href="inserir_area.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
+						<th>Cliente</th>						
+						<th>
+                            <a href="inserir_area.php">
+                                <div class="icon" data-tooltip="Adicionar Área">
+                                    <i class="mdi mdi-hospital"></i>
+                                </div>
+                            </a>
+                        </th>                     
                     </tr>
                 </thead>
                 <tbody>
                     <?php while ($area = $result->fetch_assoc()): ?>
                         <tr>
 							<td><?php echo htmlspecialchars($area['area']); ?></td>
-							<td><?php echo htmlspecialchars($area['cliente_nome']); ?></td>								
+							<td><?php echo htmlspecialchars($area['cliente_nome']); ?></td>		
 							<td>
-								<a href="editar_area.php?id=<?php echo htmlspecialchars($area['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                                <a href="list_area.php?id=<?php echo htmlspecialchars($area['id']); ?>&acao=1""><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                            </td>
-                           
+                                <a href="editar_area.php?id=<?php echo htmlspecialchars($area['id']); ?>">
+                                    <div data-tooltip="Editar">
+                                        <i class="mdi mdi-pen"></i>
+                                    </div>
+                                </a>              
+                                <a href="list_area.php?id=<?php echo htmlspecialchars($area['id']); ?>&acao=1">
+                                    <div data-tooltip="Excluir">
+                                        <i class="mdi mdi-delete"></i>
+                                    </div>
+                                </a>
+                            </td>															                           
                         </tr>
                     <?php endwhile; ?>
                 </tbody>

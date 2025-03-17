@@ -11,6 +11,7 @@ if (!isset($_SESSION['login'])) {
 <head>
     <meta charset="UTF-8">
 	<link rel="stylesheet" href="../css/estilo_menu.css">
+	 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <body>
 
