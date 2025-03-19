@@ -10,7 +10,7 @@ if (!isset($_SESSION['id'])) {
     die("Erro: Cliente não definido na sessão.");
 }
 
-$id_cliente = $_SESSION['id']; // Pegando o cliente da sessão
+$usuarios = $conn->query("$LIST_USUARIOS WHERE c.id = $cliente_sessao");
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -26,11 +26,17 @@ $id_cliente = $_SESSION['id']; // Pegando o cliente da sessão
 <div class="container">
     <h2>Criar Avaliação</h2>
     <form id="formAvaliacao">
-        <input type="hidden" id="cliente" value="<?= $id_cliente; ?>"> <!-- Cliente definido automaticamente -->
-
+        <input type="hidden" id="cliente" value="<?=$cliente_sessao; ?>"> <!-- Cliente definido automaticamente -->
         <div class="form-group">
-            <label for="nome_avaliacao">Nome da Avaliação:</label>
-            <input type="text" id="nome_avaliacao" required>
+            <label for="nome_avaliacao">Avaliado:</label>
+             <select id="avaliado" name="avaliado" required>
+                    <option value="">Selecione um avaliado</option>
+                    <?php while ($usuario = $usuarios->fetch_assoc()): ?>
+                        <option value="<?php echo $usuario['id']; ?>">
+                            <?php echo htmlspecialchars($usuario['nome']); ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
         </div>
 
         <div id="perguntasContainer" class="perguntas-container"></div>
@@ -57,14 +63,17 @@ $(document).ready(function () {
                     <input type="number" class="peso peso-field" step="0.01" min="0" max="1" required>
                 </div>
                 
-                <label>Responsáveis:</label>
+                <label>Avaliadores:</label>
                 <select class="usuarios" id="usuarios_${perguntaIndex}" multiple required></select>
                 
                 <span class="remove-pergunta" onclick="removerPergunta(${perguntaIndex})">❌</span>
             </div>
         `;
+
         $("#perguntasContainer").append(perguntaHtml);
-        carregarUsuarios("#usuarios_" + perguntaIndex);
+
+        // Carregar usuários do cliente para este novo campo de avaliadores
+        carregarUsuarios(`#usuarios_${perguntaIndex}`);
 
         perguntaIndex++;
     });
@@ -75,16 +84,20 @@ $(document).ready(function () {
         validarPesos();
     };
 
-    // Função para carregar usuários com base no cliente da sessão
+    // Função para carregar avaliadores do cliente
     function carregarUsuarios(selectId) {
-        let clienteId = $("#cliente").val();
+        let clienteId = $("#cliente").val(); // Obtém o cliente da sessão
+
         if (clienteId) {
             $.ajax({
                 url: "buscar_usuarios.php",
                 type: "POST",
                 data: { id_cliente: clienteId },
                 success: function (data) {
-                    $(selectId).html(data);
+                    $(selectId).html(data); // Insere os avaliadores na pergunta específica
+                },
+                error: function () {
+                    console.error("Erro ao buscar avaliadores.");
                 }
             });
         }
@@ -114,7 +127,7 @@ $(document).ready(function () {
         }
 
         let formData = {
-            nome_avaliacao: $("#nome_avaliacao").val(),
+            avaliado: $("#avaliado").val(),
             id_cliente: $("#cliente").val(),
             perguntas: []
         };
@@ -139,10 +152,14 @@ $(document).ready(function () {
             success: function (response) {
                 alert(response);
                 location.reload();
+            },
+            error: function () {
+                alert("Erro ao salvar a avaliação.");
             }
         });
     });
 });
+
 </script>
 
 </body>

@@ -4,10 +4,15 @@ require_once '../includes/BD/consultas.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 
-$nome_avaliacao = $data["nome_avaliacao"];
+//$nome_avaliacao = $data["nome_avaliacao"];
+$avaliado = $data["avaliado"];
 $id_cliente = $data["id_cliente"];
 
-$conn->query("INSERT INTO avaliacao (avaliacao, cliente) VALUES ('$nome_avaliacao', $id_cliente)");
+$result = $conn->query("$LIST_USUARIOS where u.id = $avaliado");
+$avaliacao_nome = $result->fetch_assoc();
+$ava = $avaliacao_nome['nome'];
+
+$conn->query("INSERT INTO avaliacao (cliente, avaliado, nome) VALUES ($id_cliente, $avaliado, '$ava')");
 $id_avaliacao = $conn->insert_id;
 
 foreach ($data["perguntas"] as $pergunta) {
@@ -18,7 +23,7 @@ foreach ($data["perguntas"] as $pergunta) {
     $id_pergunta = $conn->insert_id;
     
     foreach ($pergunta["responsaveis"] as $id_usuario) {
-        $conn->query("INSERT INTO pergunta_usuario (pergunta, usuario) VALUES ($id_pergunta, $id_usuario)");
+        $conn->query("INSERT INTO pergunta_avaliador (pergunta, avaliador) VALUES ($id_pergunta, $id_usuario)");
     }
 }
 

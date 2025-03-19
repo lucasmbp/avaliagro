@@ -37,6 +37,22 @@
                     cl.nome as nome, 
                     cl.responsavel as responsavel 
                     FROM cliente cl";
+ 
+ $LIST_AVALIACAO = "SELECT
+                    ava.id as id,
+                    ava.cliente as cliente_id,
+                    ava.avaliado as avaliado_id,
+                    cli.nome as cliente_nome,
+                    usu.nome as avaliado_nome,
+                    are.area as area_nome,
+                    are.id as area_id,
+                    car.cargo as cargo_nome,
+                    car.id as cargo_id
+                    FROM avaliacao ava
+                    JOIN cliente cli ON cli.id = ava.cliente
+                    JOIN usuario usu ON usu.id = ava.avaliado
+                    JOIN area as are on are.id = usu.area
+                    JOIN cargo car on car.id  = usu.cargo";
 
  
 ?>

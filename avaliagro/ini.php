@@ -9,6 +9,8 @@ $port = '40137';
 $socket = '';
 
 $PATH ="http://localhost/avaliagro/";
+$PERFIL_ADMIN = 1;
+$PERFIL_GESTOR = 4;
 
 // Criando a conexão
 //$conn = new mysqli($host, $username, $password, $database);

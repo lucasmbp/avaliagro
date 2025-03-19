@@ -20,7 +20,6 @@ $nome_sessao = $_SESSION['nome'];
 	 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 <body>
- <?php echo $perfil_sessao;?>
     <button class="hamburger" onclick="toggleMenu()">☰</button>
     <div class="menu" id="menu">
     	<?php if ($perfil_sessao == 1):?>
