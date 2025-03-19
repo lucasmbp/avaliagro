@@ -5,32 +5,39 @@ class usuario
     
     
     
-    public function login($conn,$login, $senha ){
+    public function login($conn, $login, $senha) {
+        session_start(); // Garante que a sessão esteja ativa
         
         // Consulta para verificar o usuário
-        $stmt = $conn->prepare("SELECT senha FROM usuario WHERE login = ?");
+        $stmt = $conn->prepare("SELECT id, senha, perfil, cliente, nome FROM usuario WHERE login = ?");
         $stmt->bind_param("s", $login);
         $stmt->execute();
-        $stmt->bind_result($hashedPassword);
-        $stmt->fetch();
         
-   
-        if ($hashedPassword && password_verify($senha, $hashedPassword)) {
-            $_SESSION['login'] = $login;
-          
-            
-            header("Location: dashboard.php");
-            exit;
-        } else {
-            $message = "Usuário ou senha inválidos!";
-            return $message;
+        // Recupera os dados do banco
+        $stmt->bind_result($id, $hashedPassword, $perfil, $cliente, $nome);
+        
+        if ($stmt->fetch()) { // Se encontrou o usuário
+            if (password_verify($senha, $hashedPassword)) { // Verifica a senha
+                // Armazena os dados do usuário na sessão
+                $_SESSION['login'] = $login;
+                $_SESSION['id'] = $id;
+                $_SESSION['perfil'] = $perfil;
+                $_SESSION['cliente'] = $cliente;
+                $_SESSION['nome'] = $nome;
+                
+                // Fecha a conexão e redireciona
+                $stmt->close();
+                $conn->close();
+                header("Location: dashboard.php");
+                exit;
+            }
         }
         
+        // Se usuário ou senha forem inválidos
         $stmt->close();
         $conn->close();
-        
+        return "Usuário ou senha inválidos!";
     }
-    
     
     
     public function editar_usuario($id, $nome, $senha, $email, $cliente, $cargo, $area, $perfil, $conn) {

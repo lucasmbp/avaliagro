@@ -1,5 +1,6 @@
 <?php
-$conn = new mysqli("localhost", "root", "", "avaliagro");
+require_once '../ini.php';
+require_once '../includes/BD/consultas.php';
 
 $data = json_decode(file_get_contents("php://input"), true);
 

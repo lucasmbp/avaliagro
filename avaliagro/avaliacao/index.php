@@ -22,7 +22,7 @@ if (!isset($_SESSION['login'])) {
     <div class="container">
         <div class="card">
             <div class="icon">📦</div>
-            <a href="inserir_perguntas.php">Criar avaliação</a>
+            <a href="inserir_avaliacao.php">Criar avaliação</a>
         </div>
         <div class="card">
             <div class="icon">👤</div>

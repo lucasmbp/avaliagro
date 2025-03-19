@@ -70,7 +70,23 @@ $conn->close();
 
             <label for="senha">Senha (deixe em branco para não alterar)</label>
             <input type="password" id="senha" name="senha">
+            
+			    <?php if ($perfil_sessao == 1): ?>  <!-- caso seja administrador-->
+                <label for="cliente">Cliente:</label>
+                <select id="cliente" name="cliente" required>
+                    <option value="">Selecione um cliente</option>
+                    <?php while ($cliente = $clientes->fetch_assoc()): ?>
+                        <option value="<?php echo $cliente['id']; ?>">
+                            <?php echo htmlspecialchars($cliente['nome']); ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+                <?php else:?>
+                	 <input type="hidden" id="cliente" name="cliente" value="<?php echo $cliente_sessao; ?>">
+                <?php endif; ?>
 
+
+			<?php if ($perfil_sessao == 1): ?>  <!-- caso seja administrador-->
             <label for="cliente">Cliente:</label>
             <select id="cliente" name="cliente" required>
                 <option value="">Selecione um cliente</option>
@@ -80,6 +96,9 @@ $conn->close();
                     </option>
                 <?php endwhile; ?>
             </select>
+             <?php else:?>
+                	 <input type="hidden" id="cliente" name="cliente" value="<?php echo $usuario['cliente']; ?>">
+             <?php endif; ?>
 
             <label for="cargo">Cargo:</label>
             <select id="cargo" name="cargo" required>

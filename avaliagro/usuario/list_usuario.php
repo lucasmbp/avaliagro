@@ -1,8 +1,10 @@
 <?php
+
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 require_once '../classes/usuario.php';
 require_once '../html/menu.php';
+
 
 $message = "";
 
@@ -32,7 +34,7 @@ $total_linhas = $total_resultados->fetch_assoc()['total'];
 $total_paginas = ceil($total_linhas / $limite);
 
 // Buscar os cargos para a página atual
-$result = $conn->query("$LIST_USUARIOS LIMIT $limite OFFSET $offset");
+$result = $conn->query("$LIST_USUARIOS WHERE u.cliente = $cliente_sessao LIMIT $limite OFFSET $offset");
 
 if (!$result) {
     die("Erro na consulta: " . $conn->error);

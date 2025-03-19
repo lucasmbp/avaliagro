@@ -18,10 +18,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $login = $_POST['login'] ?? '';
     $senha = $_POST['senha'] ?? '';
     $email = $_POST['email'] ?? '';
-    $cliente_id = $_POST['cliente'] ?? '';
     $cargo_id = $_POST['cargo'] ?? '';
     $area_id = $_POST['area'] ?? '';
     $perfil_id = $_POST['perfil'] ?? '';
+    $cliente_id = $_POST['perfil'] ?? '';
     
     
     $user = new usuario();
@@ -30,6 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 $conn->close();
+
 ?>
 
 <!DOCTYPE html>
@@ -63,16 +64,20 @@ $conn->close();
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
-
-            <label for="cliente">Cliente:</label>
-            <select id="cliente" name="cliente" required>
-                <option value="">Selecione um cliente</option>
-                <?php while ($cliente = $clientes->fetch_assoc()): ?>
-                    <option value="<?php echo $cliente['id']; ?>">
-                        <?php echo htmlspecialchars($cliente['nome']); ?>
-                    </option>
-                <?php endwhile; ?>
-            </select>
+            
+            <?php if ($perfil_sessao == 1): ?>  <!-- caso seja administrador-->
+                <label for="cliente">Cliente:</label>
+                <select id="cliente" name="cliente" required>
+                    <option value="">Selecione um cliente</option>
+                    <?php while ($cliente = $clientes->fetch_assoc()): ?>
+                        <option value="<?php echo $cliente['id']; ?>">
+                            <?php echo htmlspecialchars($cliente['nome']); ?>
+                        </option>
+                    <?php endwhile; ?>
+                </select>
+                <?php else:?>
+                	 <input type="hidden" id="cliente" name="cliente" value="<?php echo $cliente_sessao; ?>">
+                <?php endif; ?>
 
             <label for="cargo">Cargo:</label>
             <select id="cargo" name="cargo" required>

@@ -1,13 +1,16 @@
 <?php
+session_start();  // Inicia a sessão
 require_once '../classes/cargo.php';
 require_once '../ini.php';
 require_once '../includes/BD/consultas.php';
 require_once '../html/menu.php';
 
+// Verifica se o usuário está logado
+if (!isset($_SESSION['id'])) {
+    die("Erro: Cliente não definido na sessão.");
+}
 
-// Buscar clientes
-$clientes = $conn->query("SELECT id, nome FROM cliente");
-
+$id_cliente = $_SESSION['id']; // Pegando o cliente da sessão
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -16,59 +19,31 @@ $clientes = $conn->query("SELECT id, nome FROM cliente");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nova Avaliação</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   	<link rel="stylesheet" href="../css/inserir_avaliacao.css">
+    <link rel="stylesheet" href="../css/inserir_avaliacao.css">
 </head>
 <body>
 
 <div class="container">
     <h2>Criar Avaliação</h2>
     <form id="formAvaliacao">
+        <input type="hidden" id="cliente" value="<?= $id_cliente; ?>"> <!-- Cliente definido automaticamente -->
+
         <div class="form-group">
             <label for="nome_avaliacao">Nome da Avaliação:</label>
             <input type="text" id="nome_avaliacao" required>
         </div>
 
-        <div class="form-group">
-            <label for="cliente">Cliente:</label>
-            <select id="cliente" required>
-                <option value="">Selecione um Cliente</option>
-                <?php while ($cliente = $clientes->fetch_assoc()) { ?>
-                    <option value="<?= $cliente['id'] ?>"><?= $cliente['nome'] ?></option>
-                <?php } ?>
-            </select>
-        </div>
-
         <div id="perguntasContainer" class="perguntas-container"></div>
 
         <button type="button" class="add-pergunta-btn" id="addPergunta">➕ Adicionar Pergunta</button>
-
         <button type="submit" class="submit-btn">Salvar Avaliação</button>
-        <p class="erro" id="erro_peso">A soma dos pesos deve ser 1!</p>
+        <p class="erro" id="erro_peso">A soma dos pesos deve ser 100%!</p>
     </form>
 </div>
 
 <script>
 $(document).ready(function () {
     let perguntaIndex = 0;
-
-    // Carregar usuários do cliente selecionado
-    $("#cliente").change(function () {
-        let clienteId = $(this).val();
-        $(".usuarios").empty();
-
-        if (clienteId) {
-            $.ajax({
-                url: "buscar_usuarios.php",
-                type: "POST",
-                data: { id_cliente: clienteId },
-                success: function (data) {
-                    $(".usuarios").each(function () {
-                        $(this).html(data);
-                    });
-                }
-            });
-        }
-    });
 
     // Adicionar nova pergunta
     $("#addPergunta").click(function () {
@@ -83,37 +58,60 @@ $(document).ready(function () {
                 </div>
                 
                 <label>Responsáveis:</label>
-                <select class="usuarios" multiple required></select>
+                <select class="usuarios" id="usuarios_${perguntaIndex}" multiple required></select>
                 
                 <span class="remove-pergunta" onclick="removerPergunta(${perguntaIndex})">❌</span>
             </div>
         `;
         $("#perguntasContainer").append(perguntaHtml);
-        $("#cliente").trigger("change");
+        carregarUsuarios("#usuarios_" + perguntaIndex);
 
         perguntaIndex++;
     });
 
-    // Remover pergunta
+    // Remover pergunta e atualizar pesos
     window.removerPergunta = function (index) {
         $("#pergunta_" + index).remove();
+        validarPesos();
     };
 
+    // Função para carregar usuários com base no cliente da sessão
+    function carregarUsuarios(selectId) {
+        let clienteId = $("#cliente").val();
+        if (clienteId) {
+            $.ajax({
+                url: "buscar_usuarios.php",
+                type: "POST",
+                data: { id_cliente: clienteId },
+                success: function (data) {
+                    $(selectId).html(data);
+                }
+            });
+        }
+    }
+
     // Validação da soma dos pesos
-    $("#formAvaliacao").submit(function (e) {
-        e.preventDefault();
-        
+    function validarPesos() {
         let totalPeso = 0;
         $(".peso").each(function () {
             totalPeso += parseFloat($(this).val()) || 0;
         });
 
         if (totalPeso.toFixed(2) !== "1.00") {
-            $("#erro_peso").show();
+            $("#erro_peso").fadeIn();
+        } else {
+            $("#erro_peso").fadeOut();
+        }
+    }
+
+    // Verifica pesos antes de salvar
+    $("#formAvaliacao").submit(function (e) {
+        e.preventDefault();
+        validarPesos();
+
+        if ($("#erro_peso").is(":visible")) {
             return;
         }
-
-        $("#erro_peso").hide();
 
         let formData = {
             nome_avaliacao: $("#nome_avaliacao").val(),
@@ -149,5 +147,3 @@ $(document).ready(function () {
 
 </body>
 </html>
-
-
