@@ -34,8 +34,11 @@ $total_linhas = $total_resultados->fetch_assoc()['total'];
 $total_paginas = ceil($total_linhas / $limite);
 
 // Buscar os cargos para a página atual
-$result = $conn->query("$LIST_USUARIOS WHERE u.cliente = $cliente_sessao LIMIT $limite OFFSET $offset");
-
+if($perfil_sessao = $PERFIL_ADMIN){
+    $result = $conn->query("$LIST_USUARIOS LIMIT $limite OFFSET $offset");
+}else{
+    $result = $conn->query("$LIST_USUARIOS WHERE u.cliente = $cliente_sessao LIMIT $limite OFFSET $offset");
+}
 if (!$result) {
     die("Erro na consulta: " . $conn->error);
 }
@@ -48,6 +51,7 @@ if (!$result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Usuários</title>
 	<link rel="stylesheet" href="../css/estilo_tabelas.css">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
 

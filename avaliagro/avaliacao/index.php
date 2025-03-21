@@ -14,7 +14,7 @@ if (!isset($_SESSION['login'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tela Inicial</title>
+    <title>Avaliações</title>
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 
@@ -26,11 +26,7 @@ if (!isset($_SESSION['login'])) {
         </div>
         <div class="card">
             <div class="icon">👤</div>
-            <a href="usuario/">Listar avaliações</a>
-        </div>
-        <div class="card">
-            <div class="icon">🏢</div>
-            <a href="cliente/">Avaliar</a>
+            <a href="list_avaliacao.php">Avaliar</a>
         </div>
         <div class="card">
             <div class="icon">🛠️</div>

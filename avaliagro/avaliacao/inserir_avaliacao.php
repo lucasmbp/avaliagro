@@ -73,7 +73,7 @@ $(document).ready(function () {
         $("#perguntasContainer").append(perguntaHtml);
 
         // Carregar usuários do cliente para este novo campo de avaliadores
-        carregarUsuarios(`#usuarios_${perguntaIndex}`);
+       carregarUsuarios(`#usuarios_${perguntaIndex}`);
 
         perguntaIndex++;
     });
@@ -86,15 +86,19 @@ $(document).ready(function () {
 
     // Função para carregar avaliadores do cliente
     function carregarUsuarios(selectId) {
-        let clienteId = $("#cliente").val(); // Obtém o cliente da sessão
-
+        let clienteId = $("#cliente").val(); // Obtém o ID do cliente
+        let avaliadoId = $("#avaliado").val(); // Obtém o ID do avaliado
+    
         if (clienteId) {
             $.ajax({
                 url: "buscar_usuarios.php",
                 type: "POST",
-                data: { id_cliente: clienteId },
+                data: { 
+                    id_cliente: clienteId, 
+                    id_avaliado: avaliadoId // Passa o avaliado para excluir da lista
+                },
                 success: function (data) {
-                    $(selectId).html(data); // Insere os avaliadores na pergunta específica
+                    $(selectId).html(data); // Insere os usuários no select específico
                 },
                 error: function () {
                     console.error("Erro ao buscar avaliadores.");
