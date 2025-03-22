@@ -53,6 +53,21 @@
                     JOIN usuario usu ON usu.id = ava.avaliado
                     JOIN area as are on are.id = usu.area
                     JOIN cargo car on car.id  = usu.cargo";
+ 
+ $LIST_PERGUNTA = "SELECT 
+                    per.id as id, 
+                    per.avaliacao as avaliacao_id, 
+                    ava.nome as avaliacao_nome,
+                    usu.nome as avaliado_nome,
+                    car.cargo as cargo_nome,
+                    are. area as area_nome,
+                    per.pergunta as pergunta, 
+                    per.peso as peso 
+                    FROM pergunta per
+                    join avaliacao ava on ava.id = per.avaliacao
+                    join usuario usu on usu.id = ava.avaliado
+                    join cargo car on car.id = usu.cargo
+                    join area are on are.id = usu.area";
 
  
 ?>

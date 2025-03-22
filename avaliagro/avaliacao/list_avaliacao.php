@@ -80,7 +80,7 @@ if (!$result) {
                         <th>Avaliado</th>
 						<th>Setor</th>
 						<th>Cargo</th>
-                        <th colspan="3" align="right"><a href="inserir_cliente.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>                                                      
+                        <th colspan="3" align="right"><a href="inserir_avaliacao.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>                                                      
                     </tr>
                 </thead>
                 <tbody>
@@ -95,7 +95,7 @@ if (!$result) {
                                 
                               <td>  <a href="list_clientes.php?id=<?php echo htmlspecialchars($avaliacao['avaliacao_id']); ?>&acao=1" onclick="return confirmarAcao()"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a></td>
                            <?php endif;?>
-								<td><a href="editar_cliente.php?id=<?php echo htmlspecialchars($avaliacao['avaliacao_id']); ?>"><img src="../imagens/icones/avaliar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>	</td>								              
+								<td><a href="avaliar.php?avaliacao_id=<?php echo htmlspecialchars($avaliacao['avaliacao_id']); ?>"><img src="../imagens/icones/avaliar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>	</td>								              
                         </tr>
                     <?php endwhile; ?>
                 </tbody>
