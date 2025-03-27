@@ -527,6 +527,37 @@ a:focus {
   cursor: pointer;
   transition: all 0.3s ease;
 }
+/* Estilo para campos de formulário */
+label {
+  display: block;
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: var(--spacing-xs);
+  color: var(--text-color);
+}
+input, select {
+  width: 100%;
+  padding: 0.875rem;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: 1rem;
+  color: var(--text-color);
+  background-color: var(--secondary-color);
+  transition: var(--transition-fast);
+  font-family: inherit;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  background-color: white;
+}
+
+/* Efeito de flutuação para campos de formulário */
+input:hover, select:hover {
+  border-color: var(--text-light);
+}
 
 .icon:hover {
   background-color: var(--primary-hover);
