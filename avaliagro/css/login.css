@@ -22,6 +22,15 @@ body {
     text-align: center;
 }
 
+.logo {
+    width: 100px;             /* Largura fixa */
+    height: auto;             /* Mantém a proporção original da imagem */
+    max-width: 100%;          /* Garante que a imagem não ultrapasse o container */
+    display: block;           /* Centraliza com margin */
+    margin: 0 auto 20px auto; /* Centraliza e adiciona espaçamento abaixo */
+    object-fit: contain;      /* Garante que a imagem se ajuste sem cortar */
+}
+
 h2 {
     font-size: 24px;
     color: #333;

@@ -193,7 +193,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: auto;
+    height: 120px;
     flex-direction: row;
     justify-content: flex-end;
     align-items: center;
@@ -237,24 +237,6 @@ body {
   }
 }
 
-/* Logo (para adicionar se necessário) */
-.logo {
-  position: fixed;
-  top: var(--spacing-md);
-  left: var(--spacing-md);
-  height: 40px;
-  z-index: var(--z-menu);
-  display: flex;
-  align-items: center;
-  font-weight: 700;
-  font-size: 1.5rem;
-  color: var(--primary-color);
-}
-
-.logo img {
-  height: 100%;
-  margin-right: var(--spacing-xs);
-}
 
 /* Variação do menu de navegação vertical (para sidebar) */
 .menu.vertical {
@@ -288,6 +270,23 @@ body {
   .menu a.active {
     background-color: rgba(99, 102, 241, 0.25);
   }
+}
+
+
+.logo {
+  position: fixed;
+  top: var(--spacing-md);
+  left: var(--spacing-md);
+  height: 100px;
+  z-index: calc(var(--z-menu) + 2); /* acima do menu */
+  display: flex;
+  align-items: center;
+}
+
+.logo img {
+  height: 100%;
+  max-height: 130px;
+  width: auto;
 }
 
 /* Script de melhoramento - Adicione isto ao seu JavaScript */

@@ -27,7 +27,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inserir Cargo</title>
-<link rel="stylesheet" href="../css/estilo.css">
+    <link rel="stylesheet" href="../css/estilo_inserir.css">
 </head>
 <body>
     <div class="form-container">
@@ -44,7 +44,7 @@ $conn->close();
     				alert("<?php echo htmlspecialchars($message); ?>");
            			window.location.href = "<?php echo $redirectUrl; ?>"
 			</script>
-			<?php //header("Location: list_cargo.php");?>
+			<?php
         <?php endif;?>
     </div>
 </body>

@@ -26,17 +26,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <link rel="stylesheet" href="css/login.css">
 </head>
 <body>
+
+	<center>
+		<img src="https://raw.githubusercontent.com/lucasmbp/avaliacao-desempenho/refs/heads/main/logo_portal.png" alt="Bottrel Agro" width="400px" heigth="400px">
+	</center>   
     <div class="login-container">
-        <h2>Login</h2>
-        <form method="POST">
-            <input type="text" name="login" placeholder="Usuário" required>
-            <input type="password" name="senha" placeholder="Senha" required>
-            <button type="submit">Entrar</button>
-        </form>
-        <?php if ($message): ?>
-            <p class="message"><?php echo htmlspecialchars($message); ?></p>
-        <?php endif; ?>
-    </div>
+    <h2>Login</h2>
+    <form method="POST">
+        <input type="text" name="login" placeholder="Usuário" required>
+        <input type="password" name="senha" placeholder="Senha" required>
+        <button type="submit">Entrar</button>
+    </form>
+    <?php if ($message): ?>
+        <p class="message"><?php echo htmlspecialchars($message); ?></p>
+    <?php endif; ?>
+</div>
+    
 </body>
 </html>
 

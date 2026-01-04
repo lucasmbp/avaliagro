@@ -23,7 +23,7 @@ $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $limite;
 
 // Contar o total de avaliações
-$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM avaliacao");
+$total_resultados = $conn->query("SELECT COUNT(*) AS total FROM avaliacao where cliente = $cliente_sessao ");
 $total_linhas = $total_resultados->fetch_assoc()['total'];
 $total_paginas = ceil($total_linhas / $limite);
 
@@ -102,7 +102,7 @@ $competencias = $conn->query("SELECT id, descricao FROM competencia where id not
 
                                 <?php if ($perfil_sessao == $PERFIL_ADMIN || $perfil_sessao == $PERFIL_GESTOR): ?>
                                     <td>
-                                        <a href="editar_cliente.php?id=<?php echo htmlspecialchars($avaliacao['avaliacao_id']); ?>">
+                                        <a href="editar_avaliacao.php?avaliacao=<?php echo htmlspecialchars($avaliacao['avaliacao_id']); ?>&cliente="<?php echo htmlspecialchars($id_sessao);?>">
                                             <img src="../imagens/icones/editar.png" alt="Editar" width="15" height="15" style="float:left">
                                         </a>
                                     </td>

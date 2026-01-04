@@ -57,7 +57,7 @@ if (!$result) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Clientes</title>
 	<link rel="stylesheet" href="../css/estilo_tabelas.css">
-	<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+	<link rel="stylesheet" href="https://cdn.materialdesignicons.com/7.2.96/css/materialdesignicons.min.css">
 </head>
 <body>
 
@@ -77,7 +77,11 @@ if (!$result) {
                         <th>Cliente</th>
 						<th>CNPJ</th>
 						<th>Responsável</th>
-                        <th><a href="inserir_cliente.php"?><img src="../imagens/icones/add.png" alt="Smiley face" width="25" height="25" style="float:left"></a></th>
+                        <th><a href="inserir_cliente.php"?>
+                        		<div class="icon" data-tooltip="Adicionar Área">
+                                    <i class="mdi mdi-hospital"></i>
+                                </div>
+                        	</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -87,8 +91,16 @@ if (!$result) {
 							<td><?php echo htmlspecialchars($cliente['cnpj']); ?></td>
 							<td><?php echo htmlspecialchars($cliente['responsavel']); ?></td>						
 							<td>
-								<a href="editar_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>"><img src="../imagens/icones/editar.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
-                                <a href="list_clientes.php?id=<?php echo htmlspecialchars($cliente['id']); ?>&acao=1" onclick="return confirmarAcao()"><img src="../imagens/icones/delete.png" alt="Smiley face" width="15" height="15" style="float:left"></a>
+								<a href="editar_cliente.php?id=<?php echo htmlspecialchars($cliente['id']); ?>">
+									<div data-tooltip="Editar">
+                                        <i class="mdi mdi-pen"></i>
+                                    </div>
+								</a>
+                                <a href="list_clientes.php?id=<?php echo htmlspecialchars($cliente['id']); ?>&acao=1" onclick="return confirmarAcao()">
+                                	<div data-tooltip="Excluir">
+                                        <i class="mdi mdi-delete"></i>
+                                    </div>
+                                </a>
                             </td>                           
                         </tr>
                     <?php endwhile; ?>

@@ -1,78 +1,53 @@
 <?php
-include'../ini.php';
+include '../ini.php';
 
-class cargo
-{
-    public function inserir_cargo($cargo, $conn){
-        
-        
-        // Inserir o cargo no banco de dados
+class cargo {
+
+    public function inserir_cargo(string $cargo, mysqli $conn): string {
         $stmt = $conn->prepare("INSERT INTO cargo (cargo) VALUES (?)");
         $stmt->bind_param("s", $cargo);
-        
-        if ($stmt->execute())$message = "Cargo inserido com sucesso!";
-        else $message = "Erro ao inserir o cargo: " . $stmt->error;
-        
-        $stmt->close();                 
+
+        $message = $stmt->execute()
+            ? "Cargo inserido com sucesso!"
+            : "Erro ao inserir o cargo: " . $stmt->error;
+
+        $stmt->close();
+        return $message;
     }
-    
-    
-    public function validar_cargo($cargo, $conn){
-        
-        // Consulta para verificar o usuário
-        $stmt = $conn->prepare("SELECT count(cargo) as cargo FROM cargo where cargo = ?");
+
+    public function validar_cargo(string $cargo, mysqli $conn): bool {
+        $stmt = $conn->prepare("SELECT COUNT(*) as total FROM cargo WHERE cargo = ?");
         $stmt->bind_param("s", $cargo);
         $stmt->execute();
-        $result = $stmt->get_result();
-        $position = $result->fetch_assoc();
-        
-        //verifica se o cargo já existe
-        if($position['cargo'] !=0 )return false;
-        else return true;
-        
+        $stmt->bind_result($total);
+        $stmt->fetch();
         $stmt->close();
-    }
-    
-    
-    public function editar_cargo($cargo, $id, $conn){
-        
-        //valida cargo
-        $validacao = new cargo();
-        $validacao = $validacao->validar_cargo($cargo, $conn);
-        
-        //Se a validação retornar falso 
-        if($validacao == false){
-            $message = false;
-            return $message;
-        }else{           
-                // Atualizar o cargo no banco de dados
-                $stmt = $conn->prepare("UPDATE CARGO SET cargo = '$cargo'  WHERE id = $id");               
-                if ($stmt->execute()) {
-                    $message = true;
-                } else {
-                    $message = false;
-                }                      
-                $stmt->close();
-                return  $message;
-        }  
 
+        return $total === 0;
     }
-    
-    
-    
-    public function excluir_cargo ($id, $conn){
-        $stmt = $conn->prepare("DELETE FROM cargo where id = ?");
+
+    public function editar_cargo(string $cargo, int $id, mysqli $conn): bool {
+        if (!$this->validar_cargo($cargo, $conn)) {
+            return false;
+        }
+
+        $stmt = $conn->prepare("UPDATE cargo SET cargo = ? WHERE id = ?");
+        $stmt->bind_param("si", $cargo, $id);
+        $success = $stmt->execute();
+        $stmt->close();
+
+        return $success;
+    }
+
+    public function excluir_cargo(int $id, mysqli $conn): string {
+        $stmt = $conn->prepare("DELETE FROM cargo WHERE id = ?");
         $stmt->bind_param("i", $id);
-        
-        if ($stmt->execute())$message = "Cargo excluido com sucesso!";
-        else $message = "Erro ao inserir o cargo: " . $stmt->error;
-        
-        $stmt->close();
-        
-        return $message;
-       // header("Location: index.php");           
-        
-    }
-    
-}
 
+        $message = $stmt->execute()
+            ? "Cargo excluído com sucesso!"
+            : "Erro ao excluir o cargo: " . $stmt->error;
+
+        $stmt->close();
+        return $message;
+    }
+}
