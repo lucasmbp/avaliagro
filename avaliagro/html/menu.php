@@ -41,16 +41,13 @@ $nome_sessao = $_SESSION['nome'];
          	<a href="<?=$PATH?>avaliagro/logout.php">Sair</a>
     </div>
 
-    <script>
-        function toggleMenu() {
-            const menu = document.getElementById('menu');
-            if (menu.style.display === 'flex') {
-                menu.style.display = 'none';
-            } else {
-                menu.style.display = 'flex';
-            }
-        }
-    </script>
+ <script>
+    function toggleMenu() {
+        const menu = document.getElementById('menu');
+        // Alterna a classe 'active' que definimos no CSS
+        menu.classList.toggle('active');
+    }
+</script>
     
     <br>
     <br>
